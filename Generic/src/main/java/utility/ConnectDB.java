@@ -4,6 +4,9 @@ import configuration.Config;
 import org.testng.annotations.Test;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ConnectDB implements Config {
 
@@ -38,13 +41,34 @@ public class ConnectDB implements Config {
 
     @Test
     public void test() {
-        readData("Laptop");
+        readData();
     }
 
-    public void readData() {
+    public List<String> readData() {
+        List<String> items = new LinkedList<>();
         try {
             getConnectionToDB();
             myRs = myStmt.executeQuery("SELECT * FROM searchitems");
+            while (myRs.next()) {
+                items.add(myRs.getString("item"));
+
+                for(String item : items) {
+                    System.out.println(item);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            close(myRs, myStmt, myConn);
+        }
+        return null;
+    }
+
+    public String readData(String tableName) {
+        try {
+            getConnectionToDB();
+            myRs = myStmt.executeQuery("SELECT * FROM " + tableName);
             while (myRs.next()) {
                 display(myRs);
             }
@@ -54,18 +78,20 @@ public class ConnectDB implements Config {
         finally {
             close(myRs, myStmt, myConn);
         }
+        return tableName;
     }
 
-    public void readData(String tableName) {
+    public String readData(String tableName, String item) {
         try {
             getConnectionToDBPreparedStmt();
-            myPstmt = myConn.prepareStatement("SELECT * FROM " + tableName);
-            myPstmt.setString(1, tableName);
+            myPstmt = myConn.prepareStatement("SELECT * FROM " + tableName + " where item = ?");
+            myPstmt.setString(1, item);
             myRs = myPstmt.executeQuery();
             display(myRs);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return tableName;
     }
 
     private void display(ResultSet rs) {

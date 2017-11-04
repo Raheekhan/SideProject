@@ -7,8 +7,13 @@ import org.testng.annotations.Test;
 
 public class Main extends CommonAPI {
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void testMethod() {
         new TestVerification(driver).registerAccount();
+    }
+
+    @Test
+    public void testSearchItems() {
+        new TestVerification(driver).searchingItems();
     }
 }

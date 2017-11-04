@@ -8,9 +8,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import utility.ConnectDB;
+
+import java.util.List;
 
 
 public class TestVerification extends CommonAPI {
+
+    ConnectDB db = new ConnectDB();
 
     private Actions action = null;
 
@@ -18,6 +23,9 @@ public class TestVerification extends CommonAPI {
         PageFactory.initElements(driver, this);
         action = new Actions(driver);
     }
+
+    @FindBy(id = "top-search-input")
+    WebElement searchBar;
 
     @FindBy(css = ".user.login-account")
     WebElement myAccount;
@@ -45,6 +53,15 @@ public class TestVerification extends CommonAPI {
 
     @FindBy(xpath = "//input[@value='Create Account']")
     WebElement createAccountBtn;
+
+    public void searchingItems() {
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void registerAccount() {
         action.moveToElement(myAccount).perform();
