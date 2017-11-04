@@ -51,10 +51,9 @@ public class ConnectDB implements Config {
             myRs = myStmt.executeQuery("SELECT * FROM searchitems");
             while (myRs.next()) {
                 items.add(myRs.getString("item"));
-
-                for(String item : items) {
-                    System.out.println(item);
-                }
+            }
+            for(String item : items) {
+                System.out.println(item);
             }
         } catch (SQLException e) {
             e.printStackTrace();
