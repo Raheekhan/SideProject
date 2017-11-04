@@ -1,21 +1,20 @@
 package utility;
 
+import configuration.Config;
+import org.testng.annotations.Test;
+
 import java.sql.*;
 
-public class ConnectDB {
+public class ConnectDB implements Config {
 
-    private static Connection myConn = null;
-    private static Statement myStmt = null;
-    private static PreparedStatement myPstmt = null;
-    private static ResultSet myRs = null;
+    private Connection myConn = null;
+    private Statement myStmt = null;
+    private PreparedStatement myPstmt = null;
+    private ResultSet myRs = null;
 
-    private static String DBURL = "jdbc:mysql://localhost:3306/demo";
-    private static String USER = "student";
-    private static String PASS = "student";
-
-    private static void getConnectionToDB() {
+    private void getConnectionToDB() {
         try {
-            myConn = DriverManager.getConnection(DBURL, USER, PASS);
+            myConn = DriverManager.getConnection(DBURL, DBUSER, DBPASS);
             myStmt = myConn.createStatement();
             System.out.println("\n===============================");
             System.out.println("Database connection successful!");
@@ -26,10 +25,26 @@ public class ConnectDB {
         }
     }
 
-    public void readData(String tableName) {
+    private void getConnectionToDBPreparedStmt() {
+        try {
+            myConn = DriverManager.getConnection(DBURL, DBUSER, DBPASS);
+            System.out.println("\n===============================");
+            System.out.println("Database connection successful!");
+            System.out.println("===============================\n");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void test() {
+        readData("Laptop");
+    }
+
+    public void readData() {
         try {
             getConnectionToDB();
-            myRs = myStmt.executeQuery("SELECT * FROM " + tableName);
+            myRs = myStmt.executeQuery("SELECT * FROM searchitems");
             while (myRs.next()) {
                 display(myRs);
             }
@@ -41,18 +56,29 @@ public class ConnectDB {
         }
     }
 
-    private static void display(ResultSet rs) {
+    public void readData(String tableName) {
+        try {
+            getConnectionToDBPreparedStmt();
+            myPstmt = myConn.prepareStatement("SELECT * FROM " + tableName);
+            myPstmt.setString(1, tableName);
+            myRs = myPstmt.executeQuery();
+            display(myRs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void display(ResultSet rs) {
         try {
             while (rs.next()) {
-                System.out.println("Employee: " + rs.getString("id") + ", " + rs.getString("last_name") + ", " + rs.getString("first_name")
-                        + ", " + rs.getString("email") + ", " + rs.getString("department") + ", " + rs.getString("salary"));
+                System.out.println(rs.getString("item"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private static void close(ResultSet rs, Statement stmt, Connection conn) {
+    private void close(ResultSet rs, Statement stmt, Connection conn) {
         if((rs != null) && (stmt != null) && (conn != null)) {
             try {
                 rs.close();
