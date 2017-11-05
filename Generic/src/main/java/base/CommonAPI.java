@@ -41,32 +41,32 @@ public class CommonAPI implements Config {
     public JavascriptExecutor jse = (JavascriptExecutor) driver;
 
     @BeforeSuite
-    protected void startExtentReporting(){
+    protected void startExtentReporting() {
         extent = ExtentManager.createInstance();
         ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(EXTENT_REPORTS_PATH);
         extent.attachReporter(htmlReporter);
     }
 
-    @Parameters({"useGridEnv", "useLocalEnv", "useCloudEnv", "cloudEnvName", "platform", "platformVersion", "browserName", "browserVersion" , "url"})
+    @Parameters({"useHeadlessEnv", "useGridEnv", "useLocalEnv", "useCloudEnv", "cloudEnvName", "platform", "platformVersion", "browserName", "browserVersion" , "url"})
     @BeforeMethod
-    protected void setUp(@Optional boolean useGridEnv, @Optional boolean useLocalEnv, @Optional boolean useCloudEnv,
-                         @Optional String cloudEnvName, @Optional String platform, @Optional String platformVersion,
+    protected void setUp(@Optional boolean useHeadlessEnv, @Optional boolean useGridEnv, @Optional boolean useLocalEnv,
+                         @Optional boolean useCloudEnv, @Optional String cloudEnvName, @Optional String platform, @Optional String platformVersion,
                          @Optional String browserName, @Optional String browserVersion, @Optional String url, @Optional Method method) {
 
         test = extent.createTest(method.getName());
 
         if (useCloudEnv == true) {
-            if (cloudEnvName.equalsIgnoreCase("Saucelabs")) {
+            if (cloudEnvName.equalsIgnoreCase(SAUCELABS)) {
                 getCloudDriver(cloudEnvName, SAUCELABS_USERNAME, SAUCELABS_ACCESSKEY, platform, platformVersion, browserName, browserVersion);
             } else {
                 test.log(Status.FAIL, "Invalid Choice Of Cloud Environment.");
             }
-        }
-        if (useLocalEnv == true) {
+        } else if (useLocalEnv == true) {
             getLocalDriver(platform, browserName);
-        }
-        if (useGridEnv == true) {
+        } else if (useGridEnv == true) {
             getGridDriver(platform, browserName);
+        } else if (useHeadlessEnv == true) {
+            getHeadlessDriver();
         }
         driver.manage().window().maximize();
         test.log(Status.INFO, "Browser Maximized.");
@@ -78,12 +78,13 @@ public class CommonAPI implements Config {
     protected WebDriver getLocalDriver(String platform, String browserName) {
 
         // Must be in similar fashion 'Mac OS X', in the TestNG.xml for each Module.
-        if (System.getProperty("os.name").contains(platform)) {
-            if (browserName.equalsIgnoreCase("Firefox")) {
+        // As System.getPropery("os.name") Method grabs the actual OS name from the Machine.
+        if (OS_NAME.contains(platform)) {
+            if (browserName.equalsIgnoreCase(FIREFOX)) {
                 System.setProperty("webdriver.gecko.driver", "../Generic/macdriver/geckodriver");
                 driver = new FirefoxDriver();
                 test.log(Status.INFO, "Environment: 'LOCAL', Firefox Driver For Mac Executed.");
-            } else if (browserName.equalsIgnoreCase("Chrome")) {
+            } else if (browserName.equalsIgnoreCase(CHROME)) {
                 System.setProperty("webdriver.chrome.driver", "../Generic/macdriver/chromedriver");
                 driver = new ChromeDriver();
                 test.log(Status.INFO, "Environment: 'LOCAL', Chrome Driver For Mac Executed.");
@@ -91,13 +92,14 @@ public class CommonAPI implements Config {
                 System.err.println("ERROR: Choose from: Firefox/Chrome.");
                 test.log(Status.FAIL, "Invalid Choice Of Driver.");
             }
-            // Must be in similar fashion 'Windows', in the TestNG.xml for each Module.
-        } else if (System.getProperty("os.name").contains(platform)) {
-            if (browserName.equalsIgnoreCase("Firefox")) {
+            // Must be in similar fashion 'Windows', in the TestNG.xml for each Module
+            // As System.getPropery("os.name") Method grabs the actual OS name from the Machine.
+        } else if (OS_NAME.contains(platform)) {
+            if (browserName.equalsIgnoreCase(FIREFOX)) {
                 System.setProperty("webdriver.gecko.driver", "../Generic/driver/geckodriver.exe");
                 driver = new FirefoxDriver();
                 test.log(Status.INFO, "Environment: 'LOCAL', Firefox Driver For Windows Executed.");
-            } else if (browserName.equalsIgnoreCase("Chrome")) {
+            } else if (browserName.equalsIgnoreCase(CHROME)) {
                 System.setProperty("webdriver.chrome.driver", "../Generic/driver/chromedriver.exe");
                 driver = new ChromeDriver();
                 test.log(Status.INFO, "Environment: 'LOCAL', Chrome Driver For Windows Executed.");
@@ -118,7 +120,7 @@ public class CommonAPI implements Config {
         cap.setCapability("platform", platform);
         cap.setCapability("platformVersion", platformVersion);
 
-        if(cloudEnvName.equalsIgnoreCase("Saucelabs")) {
+        if(cloudEnvName.equalsIgnoreCase(SAUCELABS)) {
             try {
                 driver = new RemoteWebDriver(new URL
                         ("http://" + envUsername + ":" + envAccessKey + "@ondemand.saucelabs.com:80/wd/hub"), cap);
@@ -130,13 +132,18 @@ public class CommonAPI implements Config {
         return driver;
     }
 
+    public WebDriver getHeadlessDriver() {
+
+        return driver;
+    }
+
     protected WebDriver getGridDriver(String platform, String browserName) {
         DesiredCapabilities cap = new DesiredCapabilities();
 
-        if(platform.contains("Mac")) {
+        if(platform.contains(MAC)) {
             cap.setPlatform(Platform.MAC.family());
             test.log(Status.INFO, "Environment: 'GRID', Running Grid On Mac Configuration");
-            if(browserName.equalsIgnoreCase("chrome")) {
+            if(browserName.equalsIgnoreCase(CHROME)) {
                 cap.setBrowserName(browserName);
                 try {
                     driver = new RemoteWebDriver(new URL(NODEURL), cap);
@@ -145,7 +152,7 @@ public class CommonAPI implements Config {
                     e.printStackTrace();
                 }
             }
-            if (browserName.equalsIgnoreCase("firefox")) {
+            if (browserName.equalsIgnoreCase(FIREFOX)) {
                 cap.setBrowserName(browserName);
                 try {
                     driver = new RemoteWebDriver(new URL(NODEURL), cap);
@@ -156,10 +163,10 @@ public class CommonAPI implements Config {
             }
         }
 
-        if(platform.contains("Win")) {
+        if(platform.contains(WINDOWS)) {
             cap.setPlatform(Platform.WINDOWS.family());
             test.log(Status.INFO, "Environment: 'GRID', Running Grid On Windows Configuration");
-            if(browserName.equalsIgnoreCase("chrome")) {
+            if(browserName.equalsIgnoreCase(CHROME)) {
                 cap.setBrowserName("chrome");
                 try {
                     driver = new RemoteWebDriver(new URL(NODEURL), cap);
@@ -168,7 +175,7 @@ public class CommonAPI implements Config {
                     e.printStackTrace();
                 }
             }
-            if(browserName.equalsIgnoreCase("firefox")) {
+            if(browserName.equalsIgnoreCase(FIREFOX)) {
                 cap.setBrowserName("firefox");
                 try {
                     driver = new RemoteWebDriver(new URL(NODEURL), cap);

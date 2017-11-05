@@ -22,6 +22,7 @@
     <test name="BHPhotoVideo On Chrome">
 
         <parameter name="useLocalEnv" value="true"/>
+        <parameter name="useHeadlessEnv" value="false"/>
         <parameter name="useGridEnv" value="false"/>
         <parameter name="useCloudEnv" value="false"/>
         <parameter name="cloudEnvName" value="Saucelabs"/>

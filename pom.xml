@@ -11,6 +11,8 @@
     <modules>
         <module>Generic</module>
         <module>BHPhotoVideo</module>
+        <module>ECommerce</module>
+        <module>PHPTravels</module>
     </modules>
 
     <dependencyManagement>
