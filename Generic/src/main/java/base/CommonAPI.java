@@ -14,6 +14,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -27,6 +29,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class CommonAPI implements Config {
 
@@ -56,7 +59,7 @@ public class CommonAPI implements Config {
             if (cloudEnvName.equalsIgnoreCase("Saucelabs")) {
                 getCloudDriver(cloudEnvName, SAUCELABS_USERNAME, SAUCELABS_ACCESSKEY, platform, platformVersion, browserName, browserVersion);
             } else {
-                System.out.println("Invalid Choice Of Cloud Environment.");
+                test.log(Status.FAIL, "Invalid Choice Of Cloud Environment.");
             }
         }
         if (useLocalEnv == true) {
@@ -65,42 +68,42 @@ public class CommonAPI implements Config {
         if (useGridEnv == true) {
             getGridDriver(platform, browserName);
         }
-
         driver.manage().window().maximize();
         test.log(Status.INFO, "Browser Maximized.");
         //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.navigate().to(url);
-        test.log(Status.INFO, "Web Application Opened.");
+        test.log(Status.INFO, "Navigated To URL.");
     }
 
     protected WebDriver getLocalDriver(String platform, String browserName) {
 
-        //if (System.getProperty("os.name").contains("macOS")) {
-        if(platform.contains("Mac OS")) {
+        // Must be in similar fashion 'Mac OS X', in the TestNG.xml for each Module.
+        if (System.getProperty("os.name").contains(platform)) {
             if (browserName.equalsIgnoreCase("Firefox")) {
                 System.setProperty("webdriver.gecko.driver", "../Generic/macdriver/geckodriver");
                 driver = new FirefoxDriver();
-                test.log(Status.INFO, "Firefox Driver For Mac Executed.");
+                test.log(Status.INFO, "Environment: 'LOCAL', Firefox Driver For Mac Executed.");
             } else if (browserName.equalsIgnoreCase("Chrome")) {
                 System.setProperty("webdriver.chrome.driver", "../Generic/macdriver/chromedriver");
                 driver = new ChromeDriver();
-                test.log(Status.INFO, "Chrome Driver For Mac Executed.");
+                test.log(Status.INFO, "Environment: 'LOCAL', Chrome Driver For Mac Executed.");
             } else {
                 System.err.println("ERROR: Choose from: Firefox/Chrome.");
+                test.log(Status.FAIL, "Invalid Choice Of Driver.");
             }
-            //} else if (System.getProperty("os.name").contains("Win")) {
-        } else if (platform.contains("Win")) {
+            // Must be in similar fashion 'Windows', in the TestNG.xml for each Module.
+        } else if (System.getProperty("os.name").contains(platform)) {
             if (browserName.equalsIgnoreCase("Firefox")) {
                 System.setProperty("webdriver.gecko.driver", "../Generic/driver/geckodriver.exe");
                 driver = new FirefoxDriver();
-                test.log(Status.INFO, "Firefox Driver For Windows Executed.");
+                test.log(Status.INFO, "Environment: 'LOCAL', Firefox Driver For Windows Executed.");
             } else if (browserName.equalsIgnoreCase("Chrome")) {
                 System.setProperty("webdriver.chrome.driver", "../Generic/driver/chromedriver.exe");
                 driver = new ChromeDriver();
-                test.log(Status.INFO, "Chrome Driver For Windows Executed.");
+                test.log(Status.INFO, "Environment: 'LOCAL', Chrome Driver For Windows Executed.");
             } else {
                 System.err.println("ERROR: Choose from: Firefox/Chrome/IE/Opera.");
-                test.log(Status.INFO, "Invalid Choice Of Driver.");
+                test.log(Status.FAIL, "Invalid Choice Of Driver.");
             }
         }
         return driver;
@@ -119,7 +122,7 @@ public class CommonAPI implements Config {
             try {
                 driver = new RemoteWebDriver(new URL
                         ("http://" + envUsername + ":" + envAccessKey + "@ondemand.saucelabs.com:80/wd/hub"), cap);
-                test.log(Status.INFO, "Remote Web Driver Launched.");
+                test.log(Status.INFO, "Environment: 'REMOTE', Remote Web Driver Launched With Saucelabs.");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -132,10 +135,12 @@ public class CommonAPI implements Config {
 
         if(platform.contains("Mac")) {
             cap.setPlatform(Platform.MAC.family());
+            test.log(Status.INFO, "Environment: 'GRID', Running Grid On Mac Configuration");
             if(browserName.equalsIgnoreCase("chrome")) {
                 cap.setBrowserName(browserName);
                 try {
                     driver = new RemoteWebDriver(new URL(NODEURL), cap);
+                    test.log(Status.INFO, "Environment: 'GRID', Launching Chrome Browser For Grid");
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -144,6 +149,7 @@ public class CommonAPI implements Config {
                 cap.setBrowserName(browserName);
                 try {
                     driver = new RemoteWebDriver(new URL(NODEURL), cap);
+                    test.log(Status.INFO, "Environment: 'GRID', Launching Firefox Browser For Grid");
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -152,10 +158,12 @@ public class CommonAPI implements Config {
 
         if(platform.contains("Win")) {
             cap.setPlatform(Platform.WINDOWS.family());
+            test.log(Status.INFO, "Environment: 'GRID', Running Grid On Windows Configuration");
             if(browserName.equalsIgnoreCase("chrome")) {
                 cap.setBrowserName("chrome");
                 try {
                     driver = new RemoteWebDriver(new URL(NODEURL), cap);
+                    test.log(Status.INFO, "Environment: 'GRID', Launching Chrome Browser For Grid");
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -164,6 +172,7 @@ public class CommonAPI implements Config {
                 cap.setBrowserName("firefox");
                 try {
                     driver = new RemoteWebDriver(new URL(NODEURL), cap);
+                    test.log(Status.INFO, "Environment: 'GRID', Launching Firefox Browser For Grid");
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -178,11 +187,11 @@ public class CommonAPI implements Config {
 
         if (result.getStatus() == ITestResult.FAILURE) {
             path = captureScreenshot(driver, result.getName());
-            test.fail("Snapshot: ", MediaEntityBuilder.createScreenCaptureFromPath(path).build());
+            test.fail("Screenshot: ", MediaEntityBuilder.createScreenCaptureFromPath(path).build());
             test.fail(result.getThrowable());
         } else if (result.getStatus() == ITestResult.SKIP) {
             path = captureScreenshot(driver, result.getName());
-            test.skip("Snapshot: ", MediaEntityBuilder.createScreenCaptureFromPath(path).build());
+            test.skip("Screenshot: ", MediaEntityBuilder.createScreenCaptureFromPath(path).build());
             test.skip(result.getThrowable());
         }
         driver.quit();
@@ -195,19 +204,19 @@ public class CommonAPI implements Config {
 
     public String captureScreenshot(WebDriver driver, String screenshotName) {
 
-            DateFormat dateFormat = new SimpleDateFormat("(MM.dd.yyyy-HH:mma)");
-            Date date = new Date();
-            dateFormat.format(date);
+        DateFormat dateFormat = new SimpleDateFormat("(MM.dd.yyyy-HH:mma)");
+        Date date = new Date();
+        dateFormat.format(date);
 
         File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
         File screenshotFile = new File(System.getProperty("user.dir") + "/screenshots/" + screenshotName + " " + dateFormat.format(date) + ".png");
         try {
             FileUtils.copyFile(file, screenshotFile);
         } catch (IOException e) {
-            System.out.println("Exception while taking screenshot " + e.getMessage());
+            System.out.println("Exception while taking screenshot: " + e.getMessage());
             e.printStackTrace();
         }
-        return screenshotFile.getPath();
+        return screenshotFile.getName();
     }
 
     public String randomUsernameGenerator() {
@@ -230,8 +239,17 @@ public class CommonAPI implements Config {
         jse.executeScript(script);
     }
 
+    public void testFluentWait(WebDriver driver, long time, WebElement ele) {
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(time, TimeUnit.SECONDS)
+                .pollingEvery(3, TimeUnit.SECONDS);
+//        WebElement element =
+//        wait.until(driver1 -> driver1.findElement(By.id(ele)));
+    }
+
     public void waitUntilClickable(WebElement element, long time) {
-        new WebDriverWait(driver, time).until(ExpectedConditions.elementToBeClickable(element));
+        WebDriverWait wait = new WebDriverWait(driver, time);
+        wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
     public void waitUntilSelectable(WebElement element, long time) {

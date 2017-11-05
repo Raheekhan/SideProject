@@ -1,8 +1,7 @@
-package utility;
+package utils;
 
 import base.CommonAPI;
 import configuration.Config;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 import java.sql.*;
@@ -40,9 +39,9 @@ public class ConnectDB extends CommonAPI implements Config {
         }
     }
 
-    @Test(enabled = false)
-    public void test() {
-        readData();
+    @org.junit.Test
+    public void testOne() {
+        System.out.println(System.getProperty("os.name"));
     }
 
     public List<String> readData() {

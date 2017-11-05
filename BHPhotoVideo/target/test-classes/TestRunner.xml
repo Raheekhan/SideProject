@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name = "BHPhotoVideo Automation" parallel="false">
+<suite name = "BHPhotoVideo Automation" parallel="tests">
 
-    <test name="BHPhotoVideo On Firefox">
+    <!--<test name="BHPhotoVideo On Firefox">-->
 
-    <parameter name="useLocalEnv" value="true"/>
-    <parameter name="useGridEnv" value="false"/>
-    <parameter name="useCloudEnv" value="false"/>
-    <parameter name="cloudEnvName" value="Saucelabs"/>
-    <parameter name="platform" value="Mac OS"/>
-    <parameter name="platformVersion" value="10.12.6"/>
-    <parameter name="browserName" value="firefox"/>
-    <parameter name="browserVersion" value="55.0"/>
-    <parameter name="url" value="https://www.bhphotovideo.com/"/>
+    <!--<parameter name="useLocalEnv" value="true"/>-->
+    <!--<parameter name="useGridEnv" value="false"/>-->
+    <!--<parameter name="useCloudEnv" value="false"/>-->
+    <!--<parameter name="cloudEnvName" value="Saucelabs"/>-->
+    <!--<parameter name="platform" value="Mac OS"/>-->
+    <!--<parameter name="platformVersion" value="10.12.6"/>-->
+    <!--<parameter name="browserName" value="firefox"/>-->
+    <!--<parameter name="browserVersion" value="55.0"/>-->
+    <!--<parameter name="url" value="https://www.bhphotovideo.com/"/>-->
 
-        <classes>
-            <class name="test.Main"/>
-        </classes>
-    </test>
+        <!--<classes>-->
+            <!--<class name="test.Main"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
     <test name="BHPhotoVideo On Chrome">
 

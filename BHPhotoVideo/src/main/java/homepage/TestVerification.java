@@ -2,17 +2,12 @@ package homepage;
 
 import base.CommonAPI;
 import com.aventstack.extentreports.Status;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
-import utility.ConnectDB;
-
-import java.util.List;
+import utils.ConnectDB;
 
 
 public class TestVerification extends CommonAPI {
@@ -50,17 +45,19 @@ public class TestVerification extends CommonAPI {
     @FindBy(xpath = "//input[@value='Create Account']")
     WebElement createAccountBtn;
 
-    public void searchingItems() {
-        db.readData(String.valueOf(searchBar));
+    public void methodTwo(String input) {
+        waitUntilClickable(searchBar, 10);
+        searchBar.sendKeys(input);
+        searchBar.clear();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void registerAccount() {
         action.moveToElement(myAccount).perform();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         createAccount.click();
         test.log(Status.INFO, "Clicking On Create Account");
         firstNameField.sendKeys(randomUsernameGenerator());
