@@ -27,7 +27,6 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class CommonAPI implements Config {
 
@@ -58,7 +57,6 @@ public class CommonAPI implements Config {
                 getCloudDriver(cloudEnvName, SAUCELABS_USERNAME, SAUCELABS_ACCESSKEY, platform, platformVersion, browserName, browserVersion);
             } else {
                 System.out.println("Invalid Choice Of Cloud Environment.");
-                System.out.println("Available Options: Saucelabs");
             }
         }
         if (useLocalEnv == true) {
@@ -70,7 +68,7 @@ public class CommonAPI implements Config {
 
         driver.manage().window().maximize();
         test.log(Status.INFO, "Browser Maximized.");
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.navigate().to(url);
         test.log(Status.INFO, "Web Application Opened.");
     }
@@ -136,14 +134,19 @@ public class CommonAPI implements Config {
             cap.setPlatform(Platform.MAC.family());
             if(browserName.equalsIgnoreCase("chrome")) {
                 cap.setBrowserName(browserName);
+                try {
+                    driver = new RemoteWebDriver(new URL(NODEURL), cap);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
             if (browserName.equalsIgnoreCase("firefox")) {
                 cap.setBrowserName(browserName);
-            }
-            try {
-                driver = new RemoteWebDriver(new URL(NODEURL), cap);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+                try {
+                    driver = new RemoteWebDriver(new URL(NODEURL), cap);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -151,14 +154,19 @@ public class CommonAPI implements Config {
             cap.setPlatform(Platform.WINDOWS.family());
             if(browserName.equalsIgnoreCase("chrome")) {
                 cap.setBrowserName("chrome");
+                try {
+                    driver = new RemoteWebDriver(new URL(NODEURL), cap);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
             if(browserName.equalsIgnoreCase("firefox")) {
                 cap.setBrowserName("firefox");
-            }
-            try {
-                driver = new RemoteWebDriver(new URL(NODEURL), cap);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+                try {
+                    driver = new RemoteWebDriver(new URL(NODEURL), cap);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return driver;

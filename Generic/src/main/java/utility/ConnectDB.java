@@ -42,10 +42,10 @@ public class ConnectDB extends CommonAPI implements Config {
 
     @Test(enabled = false)
     public void test() {
-
+        readData();
     }
 
-    public List<String> readData(String element) {
+    public List<String> readData() {
         List<String> items = new LinkedList<>();
         try {
             getConnectionToDB();
@@ -54,8 +54,9 @@ public class ConnectDB extends CommonAPI implements Config {
                 items.add(myRs.getString("item"));
             }
             for(String item : items) {
-                enterInput(element, item);
-                clearInput(element);
+                System.out.println(item);
+//                enterInput(element, item);
+//                clearInput(element);
             }
         } catch (SQLException e) {
             e.printStackTrace();

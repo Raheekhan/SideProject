@@ -32,7 +32,7 @@ public class TestVerification extends CommonAPI {
     @FindBy(css = ".user.login-account")
     WebElement myAccount;
 
-    @FindBy(xpath = "/1/button[text()='Create a B&H Account']")
+    @FindBy(xpath = "//button[text()='Create a B&H Account']")
     WebElement createAccount;
 
     @FindBy(id = "create-first")
@@ -68,12 +68,6 @@ public class TestVerification extends CommonAPI {
         lastNameField.sendKeys(randomUsernameGenerator());
         emailField.sendKeys(randomEmailGenerator());
         passwordField.sendKeys(randomPasswordGenerator());
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 //        //createAccountBtn.click();
       }
 }
