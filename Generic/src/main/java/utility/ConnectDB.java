@@ -1,14 +1,15 @@
 package utility;
 
+import base.CommonAPI;
 import configuration.Config;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ConnectDB implements Config {
+public class ConnectDB extends CommonAPI implements Config {
 
     private Connection myConn = null;
     private Statement myStmt = null;
@@ -39,12 +40,12 @@ public class ConnectDB implements Config {
         }
     }
 
-    @Test
+    @Test(enabled = false)
     public void test() {
-        readData();
+
     }
 
-    public List<String> readData() {
+    public List<String> readData(String element) {
         List<String> items = new LinkedList<>();
         try {
             getConnectionToDB();
@@ -53,7 +54,8 @@ public class ConnectDB implements Config {
                 items.add(myRs.getString("item"));
             }
             for(String item : items) {
-                System.out.println(item);
+                enterInput(element, item);
+                clearInput(element);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,21 +66,21 @@ public class ConnectDB implements Config {
         return null;
     }
 
-    public String readData(String tableName) {
-        try {
-            getConnectionToDB();
-            myRs = myStmt.executeQuery("SELECT * FROM " + tableName);
-            while (myRs.next()) {
-                display(myRs);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        finally {
-            close(myRs, myStmt, myConn);
-        }
-        return tableName;
-    }
+//    public String readData(String tableName) {
+//        try {
+//            getConnectionToDB();
+//            myRs = myStmt.executeQuery("SELECT * FROM " + tableName);
+//            while (myRs.next()) {
+//                display(myRs);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        finally {
+//            close(myRs, myStmt, myConn);
+//        }
+//        return tableName;
+//    }
 
     public String readData(String tableName, String item) {
         try {

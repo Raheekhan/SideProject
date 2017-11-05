@@ -11,7 +11,7 @@
     <parameter name="platform" value="Mac OS"/>
     <parameter name="platformVersion" value="Sierra"/>
     <parameter name="browserName" value="chrome"/>
-    <parameter name="browserVersion" value="53.0"/>
+    <parameter name="browserVersion" value="61.0"/>
     <parameter name="url" value="https://www.bhphotovideo.com/"/>
 
         <classes>

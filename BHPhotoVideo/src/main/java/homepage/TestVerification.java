@@ -2,12 +2,14 @@ package homepage;
 
 import base.CommonAPI;
 import com.aventstack.extentreports.Status;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 import utility.ConnectDB;
 
 import java.util.List;
@@ -45,22 +47,11 @@ public class TestVerification extends CommonAPI {
     @FindBy(id = "create-password")
     WebElement passwordField;
 
-    @FindBy(xpath = "//input[@name='dealZoneSignup']")
-    WebElement dealZoneCheckbox;
-
-    @FindBy(xpath = "//input[@name='subscribeEmails']")
-    WebElement subscribeEmailsCheckbox;
-
     @FindBy(xpath = "//input[@value='Create Account']")
     WebElement createAccountBtn;
 
     public void searchingItems() {
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        db.readData(String.valueOf(searchBar));
     }
 
     public void registerAccount() {

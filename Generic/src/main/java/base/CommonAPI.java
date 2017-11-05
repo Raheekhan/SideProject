@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CommonAPI implements Config {
 
-    public static ExtentReports extent;
+    private static ExtentReports extent;
     public static ExtentTest test;
 
     public WebDriver driver = null;
@@ -236,5 +236,13 @@ public class CommonAPI implements Config {
 
     public void checkIfElementIsEmpty(WebElement element, long time) {
         new WebDriverWait(driver, time).until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(element, "")));
+    }
+
+    public void enterInput(String element, String input) {
+        driver.findElement(By.id(element)).sendKeys(input);
+    }
+
+    public void clearInput(String element) {
+        driver.findElement(By.id(element)).clear();
     }
 }
