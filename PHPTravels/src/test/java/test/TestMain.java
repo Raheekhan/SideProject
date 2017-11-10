@@ -2,6 +2,7 @@ package test;
 
 import base.CommonAPI;
 
+import dataprovider.DataProviders;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.HomePage;
@@ -11,16 +12,9 @@ import static org.junit.Assert.assertTrue;
 
 public class TestMain extends CommonAPI {
 
-    @Test(dataProvider = "Test")
+    @Test(dataProvider = "Test", dataProviderClass = DataProviders.class)
     public void testFlightsDeal(String orig, String dest, String departdate, String returndate, String adults) throws Exception {
         HomePage hp = new HomePage(driver);
         hp.flightDeals(orig, dest, departdate, returndate, adults);
-    }
-
-    @DataProvider(name = "Test")
-    public Object[][] middleMan() throws Exception {
-        String path = System.getProperty("user.dir")+ "/src/test/resources/files/ExpediaTesting.xls";
-        Object[][] st = DataReader.readExcelData(path, "Sheet1");
-        return st;
     }
 }

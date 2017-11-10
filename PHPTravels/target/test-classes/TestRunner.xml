@@ -5,8 +5,8 @@
     <test name="Expedia On Chrome">
 
         <parameter name="useProxy" value="false"/>
-        <parameter name="useLocalEnv" value="false"/>
-        <parameter name="useHeadlessEnv" value="true"/>
+        <parameter name="useLocalEnv" value="true"/>
+        <parameter name="useHeadlessEnv" value="false"/>
         <parameter name="useGridEnv" value="false"/>
         <parameter name="useCloudEnv" value="false"/>
         <parameter name="cloudEnvName" value="Saucelabs"/>

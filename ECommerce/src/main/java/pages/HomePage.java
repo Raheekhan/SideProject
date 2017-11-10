@@ -17,19 +17,23 @@ public class HomePage extends CommonAPI {
     By signInBtn = By.id("SubmitLogin");
     By successLoginMessage = By.xpath("//p[contains(text(), 'Welcome to your account.')]");
 
-    public void with(String user, String pwd) {
+    public void with(String username, String password) {
         click(SignInBtn);
         test.log(Status.INFO, "Clicking on Sign In");
-        type(user, emailField);
-        test.log(Status.INFO, "Sending " + user + " to email field");
-        type(pwd, passwordField);
-        test.log(Status.INFO, "Sending " + pwd + " to password field");
+        type(username, emailField);
+        test.log(Status.INFO, "Sending " + username + " to email field");
+        type(password, passwordField);
+        test.log(Status.INFO, "Sending " + password + " to password field");
         click(signInBtn);
         test.log(Status.INFO, "Clicking on Sign In");
     }
 
     public boolean successfulLoginMessage() {
-        test.log(Status.PASS, "Successfully logged in");
+        if(isDisplayed(successLoginMessage, 5)) {
+            test.log(Status.PASS, "Successfully logged in");
+        } else {
+            test.log(Status.FAIL, "Facing issues with logging in ...");
+        }
         return isDisplayed(successLoginMessage);
     }
 }
