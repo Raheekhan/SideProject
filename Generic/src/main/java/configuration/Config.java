@@ -9,9 +9,8 @@ public interface Config {
     String FIREFOX                = "Firefox";
     String CHROME                 = "Chrome";
 
-    String MAC                    = "Mac";
-    String WINDOWS                = "Win";
-    String OS_NAME                = System.getProperty("os.name");
+    String MAC                    = "mac";
+    String WIN                    = "win";
 
     String EXTENT_REPORTS_PATH    = System.getProperty("user.dir") + "/Extent-Reports/ExtentReport.html";
 

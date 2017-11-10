@@ -2,6 +2,7 @@ package utils;
 
 import base.CommonAPI;
 import configuration.Config;
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
 import java.sql.*;

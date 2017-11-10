@@ -1,0 +1,162 @@
+[INFO  - 2017-11-10T00:48:54.178Z] GhostDriver - Main - running on port 11992
+[INFO  - 2017-11-10T00:48:54.624Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-11-10T00:48:54.624Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.customHeaders:  - {}
+[INFO  - 2017-11-10T00:48:54.624Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-unknown-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-11-10T00:48:54.624Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac
+[ERROR - 2017-11-10T00:48:58.976Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - msg: ReferenceError: Can't find variable: Handlebars
+[ERROR - 2017-11-10T00:48:58.977Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - stack:
+  (anonymous function) (https://a.travel-assets.com/bundles/storefront-web/secondaryContent-bundle/memberOnlyDeals-1-en_US-1cc5420aea8897f87bafd5ed40068eef-min.js:1)
+[ERROR - 2017-11-10T00:48:59.974Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - msg: sf/error:Script error.
+onError=%22NA%22
+source=%22%22
+lineno=%220%22
+colno=%220%22
+msg=%22Script%20error.%22
+[ERROR - 2017-11-10T00:48:59.974Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:00.375Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - msg: sfError
+onErrorMsg=%224301%20(The%20given%20(TPID%2C%20EAPID)%20pair%20(1%2C%200)%20is%20not%20valid%20for%20the%20Experiment%2014802)%22
+onErrorUrl=%22NA%22
+onErrorLine=%22NA%22
+onErrorChar=%22NA%22
+stack=%22NA%22
+notes=%22sfAbTest%2Flog%22
+[ERROR - 2017-11-10T00:49:00.375Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:00.383Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - msg: sfError
+onErrorMsg=%224101%20(The%20given%20Experiment%20details%20was%20null)%22
+onErrorUrl=%22NA%22
+onErrorLine=%22NA%22
+onErrorChar=%22NA%22
+stack=%22NA%22
+notes=%22sfAbTest%2Flog%22
+[ERROR - 2017-11-10T00:49:00.383Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:00.599Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - msg: sfError
+onErrorMsg=%224301%20(The%20given%20(TPID%2C%20EAPID)%20pair%20(1%2C%200)%20is%20not%20valid%20for%20the%20Experiment%2015125)%22
+onErrorUrl=%22NA%22
+onErrorLine=%22NA%22
+onErrorChar=%22NA%22
+stack=%22NA%22
+notes=%22sfAbTest%2Flog%22
+[ERROR - 2017-11-10T00:49:00.599Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:00.671Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - msg: sfError
+onErrorMsg=%224301%20(The%20given%20(TPID%2C%20EAPID)%20pair%20(1%2C%200)%20is%20not%20valid%20for%20the%20Experiment%2015808)%22
+onErrorUrl=%22NA%22
+onErrorLine=%22NA%22
+onErrorChar=%22NA%22
+stack=%22NA%22
+notes=%22sfAbTest%2Flog%22
+[ERROR - 2017-11-10T00:49:00.671Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:01.278Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - msg: sfError
+onErrorMsg=%224101%20(The%20given%20Experiment%20details%20was%20null)%22
+onErrorUrl=%22NA%22
+onErrorLine=%22NA%22
+onErrorChar=%22NA%22
+stack=%22NA%22
+notes=%22sfAbTest%2Flog%22
+[ERROR - 2017-11-10T00:49:01.278Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:03.325Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - msg: sf/error:Script error.
+onError=%22NA%22
+source=%22%22
+lineno=%220%22
+colno=%220%22
+msg=%22Script%20error.%22
+[ERROR - 2017-11-10T00:49:03.325Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:06.002Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - msg: sfError
+onErrorMsg=%224101%20(The%20given%20Experiment%20details%20was%20null)%22
+onErrorUrl=%22NA%22
+onErrorLine=%22NA%22
+onErrorChar=%22NA%22
+stack=%22NA%22
+notes=%22sfAbTest%2Flog%22
+[ERROR - 2017-11-10T00:49:06.002Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:08.131Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - msg: sf/error:Script error.
+onError=%22NA%22
+source=%22%22
+lineno=%220%22
+colno=%220%22
+msg=%22Script%20error.%22
+[ERROR - 2017-11-10T00:49:08.132Z] Session [ed6a6ba0-c5b0-11e7-a15f-877a43a5b4ac] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[INFO  - 2017-11-10T00:49:16.045Z] ShutdownReqHand - _handle - About to shutdown
+[INFO  - 2017-11-10T00:49:53.225Z] GhostDriver - Main - running on port 28338
+[INFO  - 2017-11-10T00:49:53.833Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-11-10T00:49:53.833Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.customHeaders:  - {}
+[INFO  - 2017-11-10T00:49:53.834Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"mac-unknown-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-11-10T00:49:53.834Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde
+[ERROR - 2017-11-10T00:49:57.616Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - msg: sf/error:Script error.
+onError=%22NA%22
+source=%22%22
+lineno=%220%22
+colno=%220%22
+msg=%22Script%20error.%22
+[ERROR - 2017-11-10T00:49:57.616Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:58.534Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - msg: sfError
+onErrorMsg=%224301%20(The%20given%20(TPID%2C%20EAPID)%20pair%20(1%2C%200)%20is%20not%20valid%20for%20the%20Experiment%2014802)%22
+onErrorUrl=%22NA%22
+onErrorLine=%22NA%22
+onErrorChar=%22NA%22
+stack=%22NA%22
+notes=%22sfAbTest%2Flog%22
+[ERROR - 2017-11-10T00:49:58.535Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:58.535Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - msg: sfError
+onErrorMsg=%224301%20(The%20given%20(TPID%2C%20EAPID)%20pair%20(1%2C%200)%20is%20not%20valid%20for%20the%20Experiment%2015125)%22
+onErrorUrl=%22NA%22
+onErrorLine=%22NA%22
+onErrorChar=%22NA%22
+stack=%22NA%22
+notes=%22sfAbTest%2Flog%22
+[ERROR - 2017-11-10T00:49:58.535Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:58.536Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - msg: sfError
+onErrorMsg=%224101%20(The%20given%20Experiment%20details%20was%20null)%22
+onErrorUrl=%22NA%22
+onErrorLine=%22NA%22
+onErrorChar=%22NA%22
+stack=%22NA%22
+notes=%22sfAbTest%2Flog%22
+[ERROR - 2017-11-10T00:49:58.536Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:58.625Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - msg: sfError
+onErrorMsg=%224301%20(The%20given%20(TPID%2C%20EAPID)%20pair%20(1%2C%200)%20is%20not%20valid%20for%20the%20Experiment%2015808)%22
+onErrorUrl=%22NA%22
+onErrorLine=%22NA%22
+onErrorChar=%22NA%22
+stack=%22NA%22
+notes=%22sfAbTest%2Flog%22
+[ERROR - 2017-11-10T00:49:58.625Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:58.694Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - msg: sfError
+onErrorMsg=%224101%20(The%20given%20Experiment%20details%20was%20null)%22
+onErrorUrl=%22NA%22
+onErrorLine=%22NA%22
+onErrorChar=%22NA%22
+stack=%22NA%22
+notes=%22sfAbTest%2Flog%22
+[ERROR - 2017-11-10T00:49:58.694Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:59.127Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - msg: sfError
+onErrorMsg=%224101%20(The%20given%20Experiment%20details%20was%20null)%22
+onErrorUrl=%22NA%22
+onErrorLine=%22NA%22
+onErrorChar=%22NA%22
+stack=%22NA%22
+notes=%22sfAbTest%2Flog%22
+[ERROR - 2017-11-10T00:49:59.127Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)
+[ERROR - 2017-11-10T00:49:59.400Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - msg: sf/error:Script error.
+onError=%22NA%22
+source=%22%22
+lineno=%220%22
+colno=%220%22
+msg=%22Script%20error.%22
+[ERROR - 2017-11-10T00:49:59.400Z] Session [10b462f0-c5b1-11e7-8ff0-a5f5b5b0bdde] - page.onError - stack:
+  A (https://a.travel-assets.com/datacapture/2/js/cl.js:25)

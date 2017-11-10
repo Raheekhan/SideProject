@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name = "BHPhotoVideo Automation" parallel="tests">
+<suite name = "Expedia Automation" parallel="tests">
 
-    <test name="BHPhotoVideo On Chrome">
+    <test name="Expedia On Chrome">
 
+        <parameter name="useProxy" value="false"/>
         <parameter name="useLocalEnv" value="true"/>
         <parameter name="useHeadlessEnv" value="false"/>
         <parameter name="useGridEnv" value="false"/>
         <parameter name="useCloudEnv" value="false"/>
         <parameter name="cloudEnvName" value="Saucelabs"/>
-        <parameter name="platform" value="Mac OS"/>
-        <parameter name="platformVersion" value="10.12.6"/>
+        <parameter name="platform" value="macOS"/>
+        <parameter name="platformVersion" value="10.12"/>
         <parameter name="browserName" value="chrome"/>
         <parameter name="browserVersion" value="61.0"/>
-        <parameter name="url" value=""/>
+        <parameter name="url" value="https://www.expedia.com/"/>
 
         <classes>
-            <class name="test.Main"/>
+            <class name="test.TestMain"/>
         </classes>
     </test>
 
