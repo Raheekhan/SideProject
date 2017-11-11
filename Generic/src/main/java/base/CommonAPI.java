@@ -183,20 +183,18 @@ public abstract class CommonAPI implements Config {
     public WebDriver getHeadlessDriver(String platform) {
 
         DesiredCapabilities cap = new DesiredCapabilities();
+        cap.setJavascriptEnabled(true); // * Ignoring Web Security
+        cap.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[] {"--web-security=no", "--ignore-ssl-errors=yes"});
         // Setting Capabilities to ignore HTTPS and go with HTTP, al though less secure, PhantomJS
         // sometimes fails with HTTPS Requests. *
 
         if(platform.contains(MAC)) {
             System.setProperty(PHANTOMJS_PATH, PHANTOMJS);
-            cap.setJavascriptEnabled(true); // * Ignoring Web Security
-            cap.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[] {"--web-security=no", "--ignore-ssl-errors=yes"});
-            driver = new PhantomJSDriver();
+            driver = new PhantomJSDriver(cap);
             test.log(Status.INFO, "Environment: 'GHOST', Launched PhantonJS Driver For Mac");
         } else if (platform.contains(WIN)) {
             System.setProperty(PHANTOMJS_PATH, PHANTOMJS_EXE);
-            cap.setJavascriptEnabled(true); // * Ignoring Web Security
-            cap.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[] {"--web-security=no", "--ignore-ssl-errors=yes"});
-            driver = new PhantomJSDriver();
+            driver = new PhantomJSDriver(cap);
             test.log(Status.INFO, "Environment: 'GHOST', Launched PhantonJS Driver for Windows");
         }
         return driver;
