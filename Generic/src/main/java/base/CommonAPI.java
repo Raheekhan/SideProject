@@ -5,7 +5,6 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-import com.saucelabs.saucerest.SauceREST;
 import configuration.Config;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
@@ -13,7 +12,6 @@ import net.lightbody.bmp.client.ClientUtil;
 import net.lightbody.bmp.core.har.Har;
 import net.lightbody.bmp.core.har.HarEntry;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -40,10 +38,8 @@ import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
@@ -71,29 +67,34 @@ public abstract class CommonAPI implements Config {
 
         test = extent.createTest(method.getName());
 
-        if (useCloudEnv == true) {
+        if (useCloudEnv) {
             if (cloudEnvName.equalsIgnoreCase(SAUCELABS)) {
                 getCloudDriver(cloudEnvName, SAUCELABS_USERNAME, SAUCELABS_ACCESSKEY, platform, platformVersion, browserName, browserVersion);
             } else {
-                test.log(Status.FAIL, "Invalid Choice Of Cloud Environment.");
+                test.log(Status.FAIL, "Invalid Choice Of Cloud Environment");
             }
-        } else if (useLocalEnv == true) {
+        } else if (useLocalEnv) {
             getLocalDriver(platform, browserName);
-        } else if (useGridEnv == true) {
+        } else if (useGridEnv) {
             getGridDriver(platform, browserName);
-        } else if (useHeadlessEnv == true) {
+        } else if (useHeadlessEnv) {
             getHeadlessDriver(platform);
-        } else if (useProxy == true) {
+        } else if (useProxy) {
             getProxy(url);
         }
         driver.manage().window().maximize();
-        test.log(Status.INFO, "Browser Maximized.");
+        test.log(Status.INFO, "Browser Maximized");
         driver.navigate().to(url);
         test.log(Status.INFO, "Navigated To " + driver.getCurrentUrl());
     }
 
     private WebDriver getProxy(String url) {
-        System.setProperty("webdriver.chrome.driver", "/Users/ibrahimkhan/IdeaProjects/MainProject/Generic/macdriver/chromedriver");
+
+        /**
+         * Just a Protocol, It is not set up to work right now
+         */
+
+        System.setProperty("webdriver.chrome.driver", "/Users/ibrahimkhan/IdeaProjects/MainProject/Generic/drivers/macdriver/chromedriver");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         BrowserMobProxy proxy = getProxyServer(); //getting browsermob proxy
         Proxy seleniumProxy = getSeleniumProxy(proxy);
@@ -103,7 +104,7 @@ public abstract class CommonAPI implements Config {
         driver = new ChromeDriver(capabilities);
         proxy.newHar(); // creating new HAR
         driver.manage().window().maximize();
-        test.log(Status.INFO, "Browser Maximized.");
+        test.log(Status.INFO, "Browser Maximized");
         //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.navigate().to(url);
         test.log(Status.INFO, "Navigated To URL");
@@ -129,11 +130,11 @@ public abstract class CommonAPI implements Config {
 
         if (platform.contains(MAC)) {
             if (browserName.equalsIgnoreCase(FIREFOX)) {
-                System.setProperty("webdriver.gecko.driver", "../Generic/macdriver/geckodriver");
+                System.setProperty(GECKODRIVER_PATH, GECKODRIVER);
                 driver = new FirefoxDriver();
                 test.log(Status.INFO, "Environment: 'LOCAL', Firefox Driver For Mac Executed");
             } else if (browserName.equalsIgnoreCase(CHROME)) {
-                System.setProperty("webdriver.chrome.driver", "../Generic/macdriver/chromedriver");
+                System.setProperty(CHROMEDRIVER_PATH, CHROMEDRIVER);
                 driver = new ChromeDriver();
                 test.log(Status.INFO, "Environment: 'LOCAL', Chrome Driver For Mac Executed");
             } else {
@@ -142,11 +143,11 @@ public abstract class CommonAPI implements Config {
             }
         } else if (platform.contains(WIN)) {
             if (browserName.equalsIgnoreCase(FIREFOX)) {
-                System.setProperty("webdriver.gecko.driver", "../Generic/driver/geckodriver.exe");
+                System.setProperty(GECKODRIVER_PATH, GECKODRIVER_EXE);
                 driver = new FirefoxDriver();
                 test.log(Status.INFO, "Environment: 'LOCAL', Firefox Driver For Windows Executed");
             } else if (browserName.equalsIgnoreCase(CHROME)) {
-                System.setProperty("webdriver.chrome.driver", "../Generic/driver/chromedriver.exe");
+                System.setProperty(CHROMEDRIVER_PATH, CHROMEDRIVER_EXE);
                 driver = new ChromeDriver();
                 test.log(Status.INFO, "Environment: 'LOCAL', Chrome Driver For Windows Executed");
             } else {
@@ -186,13 +187,13 @@ public abstract class CommonAPI implements Config {
         // sometimes fails with HTTPS Requests. *
 
         if(platform.contains(MAC)) {
-            System.setProperty("phantomjs.binary.path", "/Users/ibrahimkhan/IdeaProjects/MainProject/Generic/headlessdriver/phantomjs");
+            System.setProperty(PHANTOMJS_PATH, PHANTOMJS);
             cap.setJavascriptEnabled(true); // * Ignoring Web Security
             cap.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[] {"--web-security=no", "--ignore-ssl-errors=yes"});
             driver = new PhantomJSDriver();
             test.log(Status.INFO, "Environment: 'GHOST', Launched PhantonJS Driver For Mac");
         } else if (platform.contains(WIN)) {
-            System.setProperty("phantomjs.binary.path", "/Users/ibrahimkhan/IdeaProjects/MainProject/Generic/headlessdriver/phantomjs.exe");
+            System.setProperty(PHANTOMJS_PATH, PHANTOMJS_EXE);
             cap.setJavascriptEnabled(true); // * Ignoring Web Security
             cap.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[] {"--web-security=no", "--ignore-ssl-errors=yes"});
             driver = new PhantomJSDriver();
@@ -204,7 +205,7 @@ public abstract class CommonAPI implements Config {
     protected WebDriver getGridDriver(String platform, String browserName) {
         DesiredCapabilities cap = new DesiredCapabilities();
 
-        if(platform.contains(MAC)) {
+        if (platform.contains(MAC)) {
             cap.setPlatform(Platform.MAC.family());
             test.log(Status.INFO, "Environment: 'GRID', Running Grid On Mac Configuration");
             if(browserName.equalsIgnoreCase(CHROME)) {
@@ -227,7 +228,7 @@ public abstract class CommonAPI implements Config {
             }
         }
 
-        if(platform.contains(WIN)) {
+        if (platform.contains(WIN)) {
             cap.setPlatform(Platform.WINDOWS.family());
             test.log(Status.INFO, "Environment: 'GRID', Running Grid On Windows Configuration");
             if(browserName.equalsIgnoreCase(CHROME)) {
@@ -239,7 +240,7 @@ public abstract class CommonAPI implements Config {
                     e.printStackTrace();
                 }
             }
-            if(browserName.equalsIgnoreCase(FIREFOX)) {
+            if (browserName.equalsIgnoreCase(FIREFOX)) {
                 cap.setBrowserName("firefox");
                 try {
                     driver = new RemoteWebDriver(new URL(NODEURL), cap);
@@ -311,6 +312,7 @@ public abstract class CommonAPI implements Config {
         jse.executeScript(script);
     }
 
+
     public WebElement find(By locator) {
         return driver.findElement(locator);
     }
@@ -342,13 +344,13 @@ public abstract class CommonAPI implements Config {
     }
 
     public void fluent(By locator) {
-    Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-            .withTimeout(30, TimeUnit.SECONDS) // set the timeout
-            .pollingEvery(5, TimeUnit.SECONDS); // set the interval between every 2 tries
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(30, TimeUnit.SECONDS) // set the timeout
+                .pollingEvery(5, TimeUnit.SECONDS); // set the interval between every 2 tries
         // .ignoring(NoSuchElementException.class); // don't throw this exception
-    // Then - declare the webElement and use a function to find it
-    WebElement waitingElement = wait.until(driver -> driver.findElement(locator));
-             waitingElement.click();
+        // Then - declare the webElement and use a function to find it
+        WebElement waitingElement = wait.until(driver -> driver.findElement(locator));
+        waitingElement.click();
     }
     public WebElement findClickableElement(By locator, long timeout) {
         WebElement element = new WebDriverWait(driver, timeout)
