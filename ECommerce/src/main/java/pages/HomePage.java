@@ -17,7 +17,7 @@ public class HomePage extends CommonAPI {
     By signInBtn = By.id("SubmitLogin");
     By successLoginMessage = By.xpath("//p[contains(text(), 'Welcome to your account.')]");
 
-    public void with(String username, String password) {
+    public void loggedInWith(String username, String password) {
         click(SignInBtn);
         test.log(Status.INFO, "Clicking on Sign In");
         type(username, emailField);
@@ -32,7 +32,7 @@ public class HomePage extends CommonAPI {
         if(isDisplayed(successLoginMessage, 5)) {
             test.log(Status.PASS, "Successfully logged in");
         } else {
-            test.log(Status.FAIL, "Facing issues with logging in ...");
+            test.log(Status.FAIL, "Facing issues loggedInWith logging in ...");
         }
         return isDisplayed(successLoginMessage);
     }

@@ -59,17 +59,20 @@ public abstract class CommonAPI implements Config {
         extent.attachReporter(htmlReporter);
     }
 
-    @Parameters({"useProxy", "useHeadlessEnv", "useGridEnv", "useLocalEnv", "useCloudEnv", "cloudEnvName", "platform", "platformVersion", "browserName", "browserVersion" , "url"})
+    @Parameters({"useProxy", "useHeadlessEnv", "useGridEnv", "useLocalEnv", "useCloudEnv",
+            "cloudEnvName", "platform", "platformVersion", "browserName", "browserVersion" , "url"})
     @BeforeMethod
-    protected void setUp(@Optional boolean useProxy, @Optional boolean useHeadlessEnv, @Optional boolean useGridEnv, @Optional boolean useLocalEnv,
-                         @Optional boolean useCloudEnv, @Optional String cloudEnvName, @Optional String platform, @Optional String platformVersion,
-                         @Optional String browserName, @Optional String browserVersion, @Optional String url, @Optional Method method) {
+    protected void setUp(@Optional boolean useProxy, @Optional boolean useHeadlessEnv, @Optional boolean useGridEnv,
+                         @Optional boolean useLocalEnv, @Optional boolean useCloudEnv, @Optional String cloudEnvName,
+                         @Optional String platform, @Optional String platformVersion, @Optional String browserName,
+                         @Optional String browserVersion, @Optional String url, @Optional Method method) {
 
         test = extent.createTest(method.getName());
 
         if (useCloudEnv) {
             if (cloudEnvName.equalsIgnoreCase(SAUCELABS)) {
-                getCloudDriver(cloudEnvName, SAUCELABS_USERNAME, SAUCELABS_ACCESSKEY, platform, platformVersion, browserName, browserVersion);
+                getCloudDriver(cloudEnvName, SAUCELABS_USERNAME, SAUCELABS_ACCESSKEY,
+                        platform, platformVersion, browserName, browserVersion);
             } else {
                 test.log(Status.FAIL, "Invalid Choice Of Cloud Environment");
             }
@@ -214,8 +217,7 @@ public abstract class CommonAPI implements Config {
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
-            }
-            if (browserName.equalsIgnoreCase(FIREFOX)) {
+            } else if (browserName.equalsIgnoreCase(FIREFOX)) {
                 cap.setBrowserName(browserName);
                 try {
                     driver = new RemoteWebDriver(new URL(NODEURL), cap);
@@ -230,16 +232,15 @@ public abstract class CommonAPI implements Config {
             cap.setPlatform(Platform.WINDOWS.family());
             test.log(Status.INFO, "Environment: 'GRID', Running Grid On Windows Configuration");
             if(browserName.equalsIgnoreCase(CHROME)) {
-                cap.setBrowserName("chrome");
+                cap.setBrowserName(browserName);
                 try {
                     driver = new RemoteWebDriver(new URL(NODEURL), cap);
                     test.log(Status.INFO, "Environment: 'GRID', Launching Chrome Browser For Grid");
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
-            }
-            if (browserName.equalsIgnoreCase(FIREFOX)) {
-                cap.setBrowserName("firefox");
+            } else if (browserName.equalsIgnoreCase(FIREFOX)) {
+                cap.setBrowserName(browserName);
                 try {
                     driver = new RemoteWebDriver(new URL(NODEURL), cap);
                     test.log(Status.INFO, "Environment: 'GRID', Launching Firefox Browser For Grid");
@@ -280,7 +281,8 @@ public abstract class CommonAPI implements Config {
         dateFormat.format(date);
 
         File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        File screenshotFile = new File(System.getProperty("user.dir") + "/screenshots/" + screenshotName + " " + dateFormat.format(date) + ".png");
+        File screenshotFile = new File(System.getProperty("user.dir") +
+                "/screenshots/" + screenshotName + " " + dateFormat.format(date) + ".png");
         try {
             FileUtils.copyFile(file, screenshotFile);
         } catch (IOException e) {
