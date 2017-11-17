@@ -63,6 +63,24 @@
                 <artifactId>saucerest</artifactId>
             </dependency>
 
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>com.github.scribejava</groupId>
+                <artifactId>scribejava-apis</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>com.github.scribejava</groupId>
+                <artifactId>scribejava-core</artifactId>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+            </dependency>
+
         </dependencies>
 
     <build>

@@ -9,8 +9,6 @@ import configuration.Config;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
-import net.lightbody.bmp.core.har.Har;
-import net.lightbody.bmp.core.har.HarEntry;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
@@ -18,7 +16,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
-import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.*;
@@ -28,7 +25,6 @@ import org.testng.annotations.*;
 import reporting.ExtentManager;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.Inet4Address;
@@ -38,7 +34,6 @@ import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
@@ -59,10 +54,10 @@ public abstract class CommonAPI implements Config {
         extent.attachReporter(htmlReporter);
     }
 
-    @Parameters({"useProxy", "useHeadlessEnv", "useGridEnv", "useLocalEnv", "useCloudEnv",
+    @Parameters({"useHeadlessEnv", "useGridEnv", "useLocalEnv", "useCloudEnv",
             "cloudEnvName", "platform", "platformVersion", "browserName", "browserVersion" , "url"})
     @BeforeMethod
-    protected void setUp(@Optional boolean useProxy, @Optional boolean useHeadlessEnv, @Optional boolean useGridEnv,
+    protected void setUp(@Optional boolean useHeadlessEnv, @Optional boolean useGridEnv,
                          @Optional boolean useLocalEnv, @Optional boolean useCloudEnv, @Optional String cloudEnvName,
                          @Optional String platform, @Optional String platformVersion, @Optional String browserName,
                          @Optional String browserVersion, @Optional String url, @Optional Method method) {
@@ -82,8 +77,6 @@ public abstract class CommonAPI implements Config {
             getGridDriver(platform, browserName);
         } else if (useHeadlessEnv) {
             getHeadlessDriver(platform);
-        } else if (useProxy) {
-            getProxy(url);
         }
         driver.manage().window().maximize();
         test.log(Status.INFO, "Browser Maximized");
@@ -91,43 +84,42 @@ public abstract class CommonAPI implements Config {
         test.log(Status.INFO, "Navigated To " + driver.getCurrentUrl());
     }
 
-    private WebDriver getProxy(String url) {
-
-        /**
-         * Just a Protocol, It is not set up to work right now
-         */
-
-        System.setProperty("webdriver.chrome.driver", "/Users/ibrahimkhan/IdeaProjects/MainProject/Generic/drivers/macdriver/chromedriver");
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        BrowserMobProxy proxy = getProxyServer(); //getting browsermob proxy
-        Proxy seleniumProxy = getSeleniumProxy(proxy);
-        seleniumProxy.setHttpProxy("localhost:8080");
-        seleniumProxy.setSslProxy("trustAllSSLCertificates");
-        capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
-        driver = new ChromeDriver(capabilities);
-        proxy.newHar(); // creating new HAR
-        driver.manage().window().maximize();
-        test.log(Status.INFO, "Browser Maximized");
-        //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.navigate().to(url);
-        test.log(Status.INFO, "Navigated To URL");
-        List<HarEntry> entries = proxy.getHar().getLog().getEntries();
-        for (HarEntry entry : entries) {
-            System.out.println(entry.getRequest().getUrl());
-        }
-
-        Har har = proxy.newHar();
-        File file = new File(System.getProperty("user.dir") + "/Results.har");
-        FileOutputStream fos;
-        try {
-            fos = new FileOutputStream(file);
-            har.writeTo(fos);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        proxy.stop();
-        return driver;
-    }
+//    private WebDriver getProxy(String url) {
+//
+//        /**
+//         * Just a Protocol, It is not set up to work right now
+//         */
+//
+//        DesiredCapabilities capabilities = new DesiredCapabilities();
+//        BrowserMobProxy proxy = getProxyServer(); //getting browsermob proxy
+//        Proxy seleniumProxy = getSeleniumProxy(proxy);
+//        seleniumProxy.setHttpProxy("localhost:8080");
+//        seleniumProxy.setSslProxy("trustAllSSLCertificates");
+//        capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
+//        driver = new ChromeDriver(capabilities);
+//        proxy.newHar(); // creating new HAR
+//        driver.manage().window().maximize();
+//        test.log(Status.INFO, "Browser Maximized");
+//        //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+//        driver.navigate().to(url);
+//        test.log(Status.INFO, "Navigated To URL");
+//        List<HarEntry> entries = proxy.getHar().getLog().getEntries();
+//        for (HarEntry entry : entries) {
+//            System.out.println(entry.getRequest().getUrl());
+//        }
+//
+//        Har har = proxy.newHar();
+//        File file = new File(System.getProperty("user.dir") + "/Results.har");
+//        FileOutputStream fos;
+//        try {
+//            fos = new FileOutputStream(file);
+//            har.writeTo(fos);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        proxy.stop();
+//        return driver;
+//    }
 
     protected WebDriver getLocalDriver(String platform, String browserName) {
 
@@ -312,6 +304,13 @@ public abstract class CommonAPI implements Config {
         jse.executeScript(script);
     }
 
+    public void switchToFrame(String frame) {
+        driver.switchTo().frame(frame);
+    }
+
+    public void switchBackFrame() {
+        driver.switchTo().defaultContent();
+    }
 
     public WebElement find(By locator) {
         return driver.findElement(locator);
@@ -378,6 +377,7 @@ public abstract class CommonAPI implements Config {
         }
         return seleniumProxy;
     }
+
     public BrowserMobProxy getProxyServer() {
         BrowserMobProxy proxy = new BrowserMobProxyServer();
         proxy.setTrustAllServers(true);

@@ -2,11 +2,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name = "E-Commerce Automation" parallel="tests">
 
-    <test name="E-commerce Chrome">
+    <test name="E-Commerce Chrome">
 
-        <parameter name="useProxy" value="false"/>
-        <parameter name="useLocalEnv" value="false"/>
-        <parameter name="useHeadlessEnv" value="true"/>
+        <parameter name="useLocalEnv" value="true"/>
+        <parameter name="useHeadlessEnv" value="false"/>
         <parameter name="useGridEnv" value="false"/>
         <parameter name="useCloudEnv" value="false"/>
         <parameter name="cloudEnvName" value="Saucelabs"/>
