@@ -1,5 +1,8 @@
 package common;
 
+import common.constants.Path;
+import io.restassured.RestAssured;
+import io.restassured.authentication.AuthenticationScheme;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
@@ -9,7 +12,10 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
+import java.util.concurrent.TimeUnit;
+
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.lessThan;
 
 public class RestUtilities {
 
@@ -24,10 +30,20 @@ public class RestUtilities {
     }
 
     public static RequestSpecification getRequestSpecification() {
+        //AuthenticationScheme authScheme =
+        //       RestAssured.oauth(Auth.CONSUMER_KEY, Auth.CONSUMER_SECRET, Auth.ACCESS_TOKEN, Auth.ACCESS_SECRET);
+        REQUEST_BUILDER = new RequestSpecBuilder();
+        REQUEST_BUILDER.setBaseUri(Path.BASE_URI);
+        //REQUEST_BUILDER.setAuth(authScheme);
+        REQUEST_SPEC = REQUEST_BUILDER.build();
         return REQUEST_SPEC;
     }
 
     public static ResponseSpecification getResponseSpecification() {
+        RESPONSE_BUILDER = new ResponseSpecBuilder();
+        RESPONSE_BUILDER.expectStatusCode(200);
+        RESPONSE_BUILDER.expectResponseTime(lessThan(2L), TimeUnit.SECONDS);
+        RESPONSE_SPEC = RESPONSE_BUILDER.build();
         return RESPONSE_SPEC;
     }
 

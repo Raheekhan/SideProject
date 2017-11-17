@@ -250,11 +250,11 @@ public abstract class CommonAPI implements Config {
 
         if (result.getStatus() == ITestResult.FAILURE) {
             path = captureScreenshot(driver, result.getName());
-            test.fail("Screenshot: ", MediaEntityBuilder.createScreenCaptureFromPath(path).build());
+            test.log(Status.FAIL, "Screenshot: ", MediaEntityBuilder.createScreenCaptureFromPath(path).build());
             test.fail(result.getThrowable());
         } else if (result.getStatus() == ITestResult.SKIP) {
             path = captureScreenshot(driver, result.getName());
-            test.skip("Screenshot: ", MediaEntityBuilder.createScreenCaptureFromPath(path).build());
+            test.log(Status.SKIP, "Screenshot: ", MediaEntityBuilder.createScreenCaptureFromPath(path).build());
             test.skip(result.getThrowable());
         }
         driver.quit();
@@ -273,15 +273,18 @@ public abstract class CommonAPI implements Config {
         dateFormat.format(date);
 
         File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        File screenshotFile = new File(System.getProperty("user.dir") +
-                "/screenshots/" + screenshotName + " " + dateFormat.format(date) + ".png");
+//        File screenshotFile = new File(System.getProperty("user.dir") +
+//                "/screenshots/" + screenshotName + " " + dateFormat.format(date) + ".png");
+        String destination = System.getProperty("user.dir") +
+                "/screenshots/" + screenshotName + " " + dateFormat.format(date) + ".png";
+        File screenshotFile = new File(destination);
         try {
             FileUtils.copyFile(file, screenshotFile);
         } catch (IOException e) {
             System.out.println("Exception while taking screenshot: " + e.getMessage());
             e.printStackTrace();
         }
-        return screenshotFile.getParent();
+        return destination;
     }
 
     public String randomUsernameGenerator() {

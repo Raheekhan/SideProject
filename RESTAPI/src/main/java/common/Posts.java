@@ -5,6 +5,7 @@ public class Posts {
     private int id;
     private String title;
     private String author;
+    private Info[] info;
 
     public int getId() {
         return id;
@@ -28,5 +29,13 @@ public class Posts {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public Info[] getInfo() {
+        return info;
+    }
+
+    public void setInfo(Info[] info) {
+        this.info = info;
     }
 }
