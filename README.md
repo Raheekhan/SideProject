@@ -11,7 +11,7 @@ to convert it into a .JMX file which would be used in JMeter.
 However using BrowserMob Proxies are causing massive slowdown during the 
 executions, so I am working on a different approach (In Progress).
 
-I will in the future also add some more aspects such as REST API, and
-in general make the Framework more dynamic.
+I've added some basic REST API Tests in a seperate Module, and will add 
+more functionalities to it.
 
 The purpose of this project is for learning.
