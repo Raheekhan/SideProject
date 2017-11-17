@@ -11,11 +11,11 @@ public class HomePage extends CommonAPI {
         this.driver = driver;
     }
 
-    By emailField = By.id("email");
-    By passwordField = By.id("passwd");
-    By SignInBtn = By.cssSelector(".login");
-    By signInBtn = By.id("SubmitLogin");
-    By successLoginMessage = By.xpath("//p[contains(text(), 'Welcome to your account.')]");
+    By emailField                       = By.id("email");
+    By passwordField                    = By.id("passwd");
+    By SignInBtn                        = By.cssSelector(".login");
+    By signInBtn                        = By.id("SubmitLogin");
+    By successLoginMessage              = By.xpath("//p[contains(text(), 'Welcome to your account.')]");
 
     public void loggedInWith(String username, String password) {
         click(SignInBtn);

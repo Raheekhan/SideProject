@@ -36,6 +36,7 @@ public class Main extends CommonAPI {
         women.womenCategory();
         assertTrue("Header Women should be displayed", women.successMsgWomenCategory());
         women.selectItem("Blouse");
-        cart.addToCart();
+        cart.bankwirePayment();
+        assertTrue("Order Confirmation should appear", cart.successMessageOrderConfirmation());
     }
 }

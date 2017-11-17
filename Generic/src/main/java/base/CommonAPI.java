@@ -37,6 +37,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 public abstract class CommonAPI implements Config {
 
@@ -307,11 +308,15 @@ public abstract class CommonAPI implements Config {
         jse.executeScript(script);
     }
 
-    public void switchToFrame(String frame) {
+    public void switchToFrame(int frame) {
         driver.switchTo().frame(frame);
     }
 
-    public void switchBackFrame() {
+    public void switchToParentFrame() {
+        driver.switchTo().parentFrame();
+    }
+
+    public void switchToDefaultFrame() {
         driver.switchTo().defaultContent();
     }
 
@@ -323,8 +328,30 @@ public abstract class CommonAPI implements Config {
         find(locator).click();
     }
 
+    public void clear(By locator) {
+        find(locator).clear();
+    }
+
     public void type(String inputText, By locator) {
         find(locator).sendKeys(inputText);
+    }
+
+    public boolean isSelected(By locator) {
+        try {
+            return find(locator).isSelected();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public boolean isSelected(By locator, Integer timeout) {
+        try {
+            new WebDriverWait(driver, timeout)
+                    .until(ExpectedConditions.visibilityOfElementLocated(locator));
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+        return true;
     }
 
     public boolean isDisplayed(By locator) {
@@ -337,8 +364,8 @@ public abstract class CommonAPI implements Config {
 
     public boolean isDisplayed(By locator, Integer timeout) {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeout);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            new WebDriverWait(driver, timeout)
+                    .until(ExpectedConditions.visibilityOfElementLocated(locator));
         } catch (NoSuchElementException e) {
             return false;
         }
@@ -362,6 +389,10 @@ public abstract class CommonAPI implements Config {
 
     public void waitUntilClickable(By locator, long time) {
         new WebDriverWait(driver, time).until(elementToBeClickable(locator));
+    }
+
+    public void waitUntilVisible(By locator, long time) {
+        new WebDriverWait(driver, time).until(presenceOfElementLocated(locator));
     }
 
     public void checkIfElementIsEmpty(WebElement element, long time) {

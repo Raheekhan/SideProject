@@ -11,8 +11,8 @@ public class Dresses extends CommonAPI {
         this.driver = driver;
     }
 
-    By dresses = By.xpath("//a[@title='Dresses']");
-    By dressesCategoryConfirm = By.xpath("//h2[contains(text(), 'Dresses')]");
+    By dresses                          = By.xpath("//a[@title='Dresses']");
+    By dressesCategoryConfirm           = By.xpath("//h2[contains(text(), 'Dresses')]");
 
     public void dressesCategory() {
         waitUntilClickable(dresses, 5);

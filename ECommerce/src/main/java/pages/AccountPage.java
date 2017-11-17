@@ -11,14 +11,14 @@ public class AccountPage extends CommonAPI {
         this.driver = driver;
     }
 
-    By personalInfo = By.xpath("//i[@class='icon-user']");
-    By currentPwdField = By.id("old_passwd");
-    By saveBtn = By.name("submitIdentity");
+    By personalInfo                 = By.xpath("//i[@class='icon-user']");
+    By currentPwdField              = By.id("old_passwd");
+    By saveBtn                      = By.name("submitIdentity");
 
-    By logoutBtn = By.xpath("//a[@class='loggedOut']");
+    By logoutBtn                    = By.xpath("//a[@class='loggedOut']");
 
-    By succChangedMsg = By.xpath("//p[@class='alert alert-success']");
-    By succLogoutMsg = By.xpath("//a[@class='login']");
+    By succChangedMsg               = By.xpath("//p[@class='alert alert-success']");
+    By succLogoutMsg                = By.xpath("//a[@class='login']");
 
     public void changedPassword(String oldPwd) {
         click(personalInfo);
