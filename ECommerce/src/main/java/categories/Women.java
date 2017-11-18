@@ -22,6 +22,7 @@ public class Women extends CommonAPI {
 
     public void selectItem(String item) {
         By shopItem = By.xpath("//a[@title='" + item + "']");
+        waitUntilClickable(shopItem, 5);
         click(shopItem);
         test.log(Status.INFO, "Selected " + item);
     }

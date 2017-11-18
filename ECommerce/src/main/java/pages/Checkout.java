@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import static org.junit.Assert.assertTrue;
+
 public class Checkout extends CommonAPI {
 
     public Checkout(WebDriver driver) {
@@ -31,11 +33,13 @@ public class Checkout extends CommonAPI {
     public void bankwirePayment() {
         finalCheckout();
         payByBankwire();
+        successMessageOrderConfirmation();
     }
 
     public void checkPayment() {
         finalCheckout();
         payByCheck();
+        successMessageOrderConfirmation();
     }
 
     private void finalCheckout() {
@@ -107,8 +111,7 @@ public class Checkout extends CommonAPI {
     }
 
     public boolean successMessageOrderConfirmation() {
-        waitUntilVisible(orderConfirmationMsg, 5);
-        if(isDisplayed(orderConfirmationMsg)) {
+        if(isDisplayed(orderConfirmationMsg, 5)) {
             test.log(Status.PASS, "Successfully purchased product");
         } else {
             test.log(Status.FAIL, "Unable to purchase product");

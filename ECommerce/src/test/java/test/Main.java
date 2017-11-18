@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 
 public class Main extends CommonAPI {
 
-    @Test(enabled = false, dataProvider = "Credentials", dataProviderClass = DataProviders.class)
+    @Test(enabled = true, dataProvider = "Credentials", dataProviderClass = DataProviders.class)
     public void loginAndChangePasswordThenLogOut(String username, String password) {
         AccountPage user = new AccountPage(driver);
         user.loggedInWith(username, password);
@@ -22,12 +22,8 @@ public class Main extends CommonAPI {
         assertTrue("Sign In button should appear", user.successfulLogoutMessage());
     }
 
-    /**
-     * ITEMS: Faded Short Sleeve T-shirts, Blouse
-     */
-
-    @Test
-    public void shopFromWomenCategoryAndCheckOut() {
+    @Test(enabled = false, dataProvider = "ShoppingItems", dataProviderClass = DataProviders.class)
+    public void shopFromWomenCategoryAndCheckOut(String item) {
         AccountPage user = new AccountPage(driver);
         Women women = new Women(driver);
         Checkout cart = new Checkout(driver);
@@ -35,7 +31,7 @@ public class Main extends CommonAPI {
         assertTrue("Welcome page should be displayed", user.successfulLoginMessage());
         women.womenCategory();
         assertTrue("Header Women should be displayed", women.successMsgWomenCategory());
-        women.selectItem("Blouse");
+        women.selectItem(item);
         cart.bankwirePayment();
         assertTrue("Order Confirmation should appear", cart.successMessageOrderConfirmation());
     }
