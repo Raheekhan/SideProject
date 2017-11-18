@@ -8,12 +8,14 @@ import pages.AccountPage;
 import pages.Checkout;
 
 import static org.junit.Assert.assertTrue;
+import static org.testng.AssertJUnit.assertEquals;
 
 public class Main extends CommonAPI {
 
-    @Test(enabled = true, dataProvider = "Credentials", dataProviderClass = DataProviders.class)
+    @Test(dataProvider = "Credentials", dataProviderClass = DataProviders.class)
     public void loginAndChangePasswordThenLogOut(String username, String password) {
         AccountPage user = new AccountPage(driver);
+        assertEquals("My Store", driver.getTitle());
         user.loggedInWith(username, password);
         assertTrue("Welcome page should be displayed", user.successfulLoginMessage());
         user.changedPassword("abc123");
@@ -22,11 +24,18 @@ public class Main extends CommonAPI {
         assertTrue("Sign In button should appear", user.successfulLogoutMessage());
     }
 
-    @Test(enabled = false, dataProvider = "ShoppingItems", dataProviderClass = DataProviders.class)
+    /**
+     * The DataProvider calls on an Excel file which contains Two Items
+     * so the test case will be executed twice
+     * @param item
+     */
+
+    @Test(dataProvider = "ShoppingItems", dataProviderClass = DataProviders.class)
     public void shopFromWomenCategoryAndCheckOut(String item) {
         AccountPage user = new AccountPage(driver);
         Women women = new Women(driver);
         Checkout cart = new Checkout(driver);
+        assertEquals("My Store", driver.getTitle());
         user.loggedInWith("ibra@live.se", "abc123");
         assertTrue("Welcome page should be displayed", user.successfulLoginMessage());
         women.womenCategory();

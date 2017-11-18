@@ -15,7 +15,7 @@ public class AccountPage extends CommonAPI {
     By currentPwdField              = By.id("old_passwd");
     By saveBtn                      = By.name("submitIdentity");
 
-    By logoutBtn                    = By.xpath("//a[@class='loggedOut']");
+    By logoutBtn                    = By.xpath("//a[@class='logout']");
 
     By succChangedMsg               = By.xpath("//p[@class='alert alert-success']");
     By succLogoutMsg                = By.xpath("//a[@class='login']");
