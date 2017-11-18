@@ -31,22 +31,19 @@ public class Checkout extends CommonAPI {
 
 
     public void bankwirePayment() {
-        finalCheckout();
-        payByBankwire();
-        successMessageOrderConfirmation();
-    }
-
-    public void checkPayment() {
-        finalCheckout();
-        payByCheck();
-        successMessageOrderConfirmation();
-    }
-
-    private void finalCheckout() {
         addToCart();
         summaryCheckout();
         addressCheckout();
         shippingCheckout();
+        payByBankwire();
+    }
+
+    public void checkPayment() {
+        addToCart();
+        summaryCheckout();
+        addressCheckout();
+        shippingCheckout();
+        payByCheck();
     }
 
     private void addToCart() {
