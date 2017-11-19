@@ -2,38 +2,61 @@ package pages;
 
 import base.CommonAPI;
 import com.aventstack.extentreports.Status;
+import helper.Waits;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class HomePage extends CommonAPI {
 
+    private WebDriver driver;
+    private Waits wait;
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
+        wait = new Waits(driver);
     }
 
-    By emailField                       = By.id("email");
-    By passwordField                    = By.id("passwd");
-    By SignInBtn                        = By.cssSelector(".login");
-    By signInBtn                        = By.id("SubmitLogin");
-    By successLoginMessage              = By.xpath("//p[contains(text(), 'Welcome to your account.')]");
+    String Tshirts = "T-shirts";
+    String Blouses = "Blouses";
+    String CasualDresses = "Casual Dresses";
+
+    @FindBy(id = "email")
+    WebElement emailField;
+
+    @FindBy(id = "passwd")
+    WebElement passwordField;
+
+    @FindBy(css = ".login")
+    WebElement signInBtnOne;
+
+    @FindBy(id = "SubmitLogin")
+    WebElement signInBtnTwo;
+
+    @FindBy(xpath = "//p[contains(text(), 'Welcome to your account.')]")
+    WebElement successLoginMessage;
 
     public void loggedInWith(String username, String password) {
-        click(SignInBtn);
+        signInBtnOne.click();
         test.log(Status.INFO, "Clicking on Sign In");
-        type(username, emailField);
+        emailField.sendKeys(username);
         test.log(Status.INFO, "Sending " + username + " to email field");
-        type(password, passwordField);
+        passwordField.sendKeys(password);
         test.log(Status.INFO, "Sending " + password + " to password field");
-        click(signInBtn);
+        signInBtnTwo.click();
         test.log(Status.INFO, "Clicking on Sign In");
     }
 
     public boolean successfulLoginMessage() {
-        if(isDisplayed(successLoginMessage, 5)) {
+        wait.waitUntilVisibilityOf(successLoginMessage, 5);
+        if(successLoginMessage.isDisplayed()) {
             test.log(Status.PASS, "Successfully logged in");
         } else {
             test.log(Status.FAIL, "Facing issues loggedInWith logging in ...");
         }
-        return isDisplayed(successLoginMessage);
+        return true;
     }
 }

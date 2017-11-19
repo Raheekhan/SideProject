@@ -2,57 +2,73 @@ package pages;
 
 import base.CommonAPI;
 import com.aventstack.extentreports.Status;
+import helper.Waits;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class AccountPage extends CommonAPI {
 
-    public HomePage homePage;
-
-    private static WebDriver driver;
+    private WebDriver driver;
+    private Waits wait;
 
     public AccountPage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
+        wait = new Waits(driver);
     }
 
-    By personalInfo                 = By.xpath("//i[@class='icon-user']");
-    By currentPwdField              = By.id("old_passwd");
-    By saveBtn                      = By.name("submitIdentity");
+    @FindBy(xpath = "//i[@class='icon-user']")
+    WebElement personalInfo;
 
-    By logoutBtn                    = By.xpath("//a[@class='logout']");
+    @FindBy(id = "old_passwd")
+    WebElement currentPwdField;
 
-    By succChangedMsg               = By.xpath("//p[@class='alert alert-success']");
-    By succLogoutMsg                = By.xpath("//a[@class='login']");
+    @FindBy(name = "submitIdentity")
+    WebElement saveBtn;
+
+    @FindBy(xpath = "//a[@class='logout']")
+    WebElement logoutBtn;
+
+    @FindBy(xpath = "//p[@class='alert alert-success']")
+    WebElement succChangedMsg;
+
+    @FindBy(xpath = "//a[@class='login']")
+    WebElement succLogoutMsg;
 
     public void changedPassword(String oldPwd) {
-        click(personalInfo);
+        personalInfo.click();
         test.log(Status.INFO, "Clicking on Personal Information");
-        type(oldPwd, currentPwdField);
+        currentPwdField.sendKeys(oldPwd);
         test.log(Status.INFO, "Passing old password");
-        click(saveBtn);
+        saveBtn.click();
         test.log(Status.INFO, "Clicking on Save Button");
     }
 
     public void loggedOut() {
-        click(logoutBtn);
+        logoutBtn.click();
         test.log(Status.INFO, "Clicking on Sign Out");
     }
 
     public boolean successfulLogoutMessage() {
-        if(isDisplayed(succLogoutMsg, 5)) {
+        wait.waitUntilVisibilityOf(succLogoutMsg, 5);
+        if(succLogoutMsg.isDisplayed()) {
             test.log(Status.PASS, "Successfully logged out");
         } else {
             test.log(Status.FAIL, "Facing issues loggedInWith logging out ...");
         }
-        return isDisplayed(succLogoutMsg);
+        return true;
     }
 
     public boolean successfullyChangedMessage() {
-        if(isDisplayed(succChangedMsg, 5)) {
+        wait.waitUntilVisibilityOf(succChangedMsg, 5);
+        if(succChangedMsg.isDisplayed()) {
             test.log(Status.PASS, "Successfully Changed and Saved Personal Information");
         } else {
             test.log(Status.FAIL, "Facing issues loggedInWith changing password ...");
         }
-        return isDisplayed(succChangedMsg);
+        return true;
     }
 }

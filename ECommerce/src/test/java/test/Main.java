@@ -6,6 +6,7 @@ import dataprovider.DataProviders;
 import org.testng.annotations.Test;
 import pages.AccountPage;
 import pages.Checkout;
+import pages.HomePage;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -13,12 +14,13 @@ import static org.testng.AssertJUnit.assertEquals;
 
 public class Main extends CommonAPI {
 
-    @Test(enabled = true, dataProvider = "Credentials", dataProviderClass = DataProviders.class)
+    @Test(enabled = false, dataProvider = "Credentials", dataProviderClass = DataProviders.class)
     public void loginAndChangePasswordThenLogOut(String username, String password) {
+        HomePage homePage = new HomePage(driver);
         AccountPage user = new AccountPage(driver);
         assertEquals("My Store", driver.getTitle());
-        user.homePage.loggedInWith(username, password);
-        assertTrue("Welcome page should be displayed", user.homePage.successfulLoginMessage());
+        homePage.loggedInWith(username, password);
+        assertTrue("Welcome page should be displayed", homePage.successfulLoginMessage());
         user.changedPassword("abc123");
         assertTrue("Successfully changed should appear", user.successfullyChangedMessage());
         user.loggedOut();
@@ -31,18 +33,18 @@ public class Main extends CommonAPI {
      * @param item
      */
 
-    @Test(enabled = false, dataProvider = "ShoppingItems", dataProviderClass = DataProviders.class)
+    @Test(enabled = true, dataProvider = "ShoppingItems", dataProviderClass = DataProviders.class)
     public void shopFromWomenCategoryAndCheckOut(String item) {
-        AccountPage user = new AccountPage(driver);
+        HomePage homePage = new HomePage(driver);
         Women women = new Women(driver);
         Checkout cart = new Checkout(driver);
         assertEquals("My Store", driver.getTitle());
-        user.homePage.loggedInWith("ibra@live.se", "abc123");
-        assertTrue("Welcome page should be displayed", user.homePage.successfulLoginMessage());
+        homePage.loggedInWith("ibra@live.se", "abc123");
+        assertTrue("Welcome page should be displayed", homePage.successfulLoginMessage());
         women.womenCategory();
         assertTrue("Header Women should be displayed", women.successMsgWomenCategory());
         women.selectItem(item);
         cart.bankwirePayment();
-        assertFalse("Order Confirmation should appear", cart.successMessageOrderConfirmation());
+        assertTrue("Order Confirmation should appear", cart.successMessageOrderConfirmation());
     }
 }

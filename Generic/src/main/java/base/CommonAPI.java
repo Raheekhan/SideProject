@@ -12,6 +12,7 @@ import net.lightbody.bmp.client.ClientUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -27,13 +28,11 @@ import reporting.ExtentManager;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.Inet4Address;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
@@ -303,23 +302,6 @@ public class CommonAPI implements Config {
         return username;
     }
 
-    public void mouseScroll(int x, int y) {
-        String script = "window.scrollBy(" + x + "," + y + ")";
-        jse.executeScript(script);
-    }
-
-    public void switchToFrame(int frame) {
-        driver.switchTo().frame(frame);
-    }
-
-    public void switchToParentFrame() {
-        driver.switchTo().parentFrame();
-    }
-
-    public void switchToDefaultFrame() {
-        driver.switchTo().defaultContent();
-    }
-
     public WebElement find(By locator) {
         return driver.findElement(locator);
     }
@@ -372,43 +354,6 @@ public class CommonAPI implements Config {
         return true;
     }
 
-    public void fluent(By locator) {
-        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-                .withTimeout(30, TimeUnit.SECONDS) // set the timeout
-                .pollingEvery(5, TimeUnit.SECONDS); // set the interval between every 2 tries
-        // .ignoring(NoSuchElementException.class); // don't throw this exception
-        // Then - declare the webElement and use a function to find it
-        WebElement waitingElement = wait.until(driver -> driver.findElement(locator));
-        waitingElement.click();
-    }
-    public WebElement findClickableElement(By locator, long timeout) {
-        WebElement element = new WebDriverWait(driver, timeout)
-                .until(elementToBeClickable(locator));
-        return element;
-    }
-
-    public void waitUntilClickable(By locator, long time) {
-        new WebDriverWait(driver, time).until(elementToBeClickable(locator));
-    }
-
-    public void waitUntilVisible(By locator, long time) {
-        new WebDriverWait(driver, time).until(presenceOfElementLocated(locator));
-    }
-
-    public void checkIfElementIsEmpty(WebElement element, long time) {
-        new WebDriverWait(driver, time).until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(element, "")));
-    }
-
-    public void acceptAlert() {
-        driver.switchTo().alert().accept();
-    }
-
-    public void dismissAlert() {
-        driver.switchTo().alert().dismiss();
-    }
-
-
-
     public Proxy getSeleniumProxy(BrowserMobProxy proxyServer) {
         Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxyServer);
         try {
@@ -427,5 +372,33 @@ public class CommonAPI implements Config {
         proxy.setTrustAllServers(true);
         proxy.start();
         return proxy;
+    }
+
+    public void findIfLinksAreBroken() {
+        List<WebElement> links = driver.findElements(By.tagName("a"));
+        System.out.println("Total links in " + driver.getCurrentUrl() + " are: " + links.size());
+        System.out.println("==================================================================");
+        for(int i = 0; i < links.size(); i++) {
+            WebElement element = links.get(i);
+            String url = element.getAttribute("href");
+            verifyLinkActive(url);
+        }
+    }
+
+    public static void verifyLinkActive(String linkUrl) {
+        try {
+            URL url = new URL(linkUrl);
+            HttpURLConnection httpURLConnect = (HttpURLConnection) url.openConnection();
+            httpURLConnect.setConnectTimeout(3000);
+            httpURLConnect.connect();
+            if (httpURLConnect.getResponseCode() == 200) {
+                System.out.println(linkUrl + " - " + httpURLConnect.getResponseMessage());
+            }
+            if (httpURLConnect.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
+                System.out.println(linkUrl + " - " + httpURLConnect.getResponseMessage() + " - " + HttpURLConnection.HTTP_NOT_FOUND);
+            }
+        } catch (Exception e) {
+
+        }
     }
 }

@@ -2,33 +2,63 @@ package pages;
 
 import base.CommonAPI;
 import com.aventstack.extentreports.Status;
-import org.openqa.selenium.By;
+import helper.Browsers;
+import helper.Waits;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import static org.junit.Assert.assertTrue;
 
 public class Checkout extends CommonAPI {
 
+    private WebDriver driver;
+    private Waits wait;
+    private Browsers helper;
+
     public Checkout(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
+        wait = new Waits(driver);
+        helper = new Browsers(driver);
     }
 
-    By submit                       = By.xpath("//span[text()='Add to cart']");
-    By proceedToCheckout            = By.xpath("//a[@title='Proceed to checkout']");
-    By proceedToCheckoutSummary     = By.xpath("//span[text()='Proceed to checkout']");
-    By textAreaComment              = By.name("message");
-    By proceedToCheckoutAddress     = By.name("processAddress");
-    By checkBoxShipping             = By.id("uniform-cgv");
-    By proceedToCheckoutShipping    = By.name("processCarrier");
+    @FindBy(xpath = "//span[text()='Add to cart']")
+    WebElement submit;
 
-    By succMsgProductAddedToCard    = By.xpath("//i[@class='icon-ok']");
+    @FindBy(xpath = "//a[@title='Proceed to checkout']")
+    WebElement proceedToCheckout;
 
-    By bankwire                     = By.className("bankwire");
-    By check                        = By.className("cheque");
-    By confirmOrder                 = By.xpath("//span[contains(text(), 'I confirm my order')]");
-    By orderConfirmationMsg         = By.xpath("//h1[contains(text(), 'Order confirmation')]");
+    @FindBy(xpath = "//span[text()='Proceed to checkout']")
+    WebElement proceedToCheckoutSummary;
 
+    @FindBy(name = "message")
+    WebElement textAreaComment;
+
+    @FindBy(name = "processAddress")
+    WebElement proceedToCheckoutAddress;
+
+    @FindBy(id = "uniform-cgv")
+    WebElement checkBoxShipping;
+
+    @FindBy(name = "processCarrier")
+    WebElement proceedToCheckoutShipping;
+
+    @FindBy(xpath = "//i[@class='icon-ok']")
+    WebElement succMsgProductAddedToCard;
+
+    @FindBy(className = "bankwire")
+    WebElement bankwire;
+
+    @FindBy(className = "cheque")
+    WebElement check;
+
+    @FindBy(xpath = "//span[contains(text(), 'I confirm my order')]")
+    WebElement confirmOrder;
+
+    @FindBy(xpath = "//h1[contains(text(), 'Order confirmation')]")
+    WebElement orderConfirmationMsg;
 
     public void bankwirePayment() {
         addToCart();
@@ -47,72 +77,74 @@ public class Checkout extends CommonAPI {
     }
 
     private void addToCart() {
-        switchToFrame(0);
-        waitUntilClickable(submit, 5);
-        click(submit);
+        helper.switchToFrame(0);
+        wait.waitUntilClickable(submit, 5);
+        submit.click();
         test.log(Status.INFO, "Clicked on 'Add To Cart Button'");
-        waitUntilClickable(proceedToCheckout, 5);
+        wait.waitUntilClickable(proceedToCheckout, 5);
         successMessageProductAddedToCard();
-        click(proceedToCheckout);
+        proceedToCheckout.click();
         test.log(Status.INFO, "Clicked on 'Proceed To Checkout'");
     }
 
     private void summaryCheckout() {
-        waitUntilClickable(proceedToCheckoutSummary, 5);
-        click(proceedToCheckoutSummary);
+        wait.waitUntilClickable(proceedToCheckoutSummary, 5);
+        proceedToCheckoutSummary.click();
         test.log(Status.INFO, "Clicked on 'Proceed To Checkout' on Summary Page");
     }
 
     private void addressCheckout() {
-        waitUntilClickable(textAreaComment, 5);
-        clear(textAreaComment);
-        type("Deliver With Care!", textAreaComment);
+        wait.waitUntilClickable(textAreaComment, 5);
+        textAreaComment.click();
+        textAreaComment.sendKeys("Deliver With Care!");
         test.log(Status.INFO, "Sent some text to the Text Area");
-        click(proceedToCheckoutAddress);
+        proceedToCheckoutAddress.click();
         test.log(Status.INFO, "Clicked on 'Proceed To Checkout' on Address Page");
     }
 
     private void shippingCheckout() {
-        waitUntilClickable(checkBoxShipping, 5);
-        click(checkBoxShipping);
+        wait.waitUntilClickable(checkBoxShipping, 5);
+        checkBoxShipping.click();
         test.log(Status.INFO, "Clicking on 'Agree To Terms'");
-        click(proceedToCheckoutShipping);
+        proceedToCheckoutShipping.click();
         test.log(Status.INFO, "Clicked on 'Proceed To Checkout' on Shipping Page");
     }
 
     private void payByBankwire() {
-        waitUntilClickable(bankwire, 5);
-        click(bankwire);
+        wait.waitUntilClickable(bankwire, 5);
+        bankwire.click();
         test.log(Status.INFO, "Clicked on Bankwire payment");
-        waitUntilClickable(confirmOrder, 5);
-        click(confirmOrder);
+        wait.waitUntilClickable(confirmOrder, 5);
+        confirmOrder.click();
         test.log(Status.INFO, "Clicked on 'I Confirm My Order'");
     }
 
     private void payByCheck() {
-        waitUntilClickable(check, 5);
-        click(check);
+        wait.waitUntilClickable(check, 5);
+        check.click();
         test.log(Status.INFO, "Clicked on Check payment");
-        waitUntilClickable(confirmOrder, 5);
-        click(confirmOrder);
+        wait.waitUntilClickable(confirmOrder, 5);
+        confirmOrder.click();
         test.log(Status.INFO, "Clicked on 'I Confirm My Order'");
     }
 
     public boolean successMessageProductAddedToCard() {
-        if(isDisplayed(succMsgProductAddedToCard, 5)) {
+        wait.waitUntilVisibilityOf(succMsgProductAddedToCard, 5);
+        if(succMsgProductAddedToCard.isDisplayed()) {
             test.log(Status.PASS, "Successfully added product ");
         } else {
             test.log(Status.FAIL, "Facing issues with adding product ...");
         }
-        return isDisplayed(succMsgProductAddedToCard);
+        return true;
     }
 
     public boolean successMessageOrderConfirmation() {
-        if(isDisplayed(orderConfirmationMsg, 5)) {
+        wait.waitUntilVisibilityOf(orderConfirmationMsg, 5);
+        if(orderConfirmationMsg.isDisplayed()) {
             test.log(Status.PASS, "Successfully purchased product");
         } else {
             test.log(Status.FAIL, "Unable to purchase product");
         }
-        return isSelected(orderConfirmationMsg);
+        return true;
     }
 }
