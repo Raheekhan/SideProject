@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
-public abstract class CommonAPI implements Config {
+public class CommonAPI implements Config {
 
     private static ExtentReports extent;
     public static ExtentTest test;
@@ -202,7 +202,7 @@ public abstract class CommonAPI implements Config {
         if (platform.contains(MAC)) {
             cap.setPlatform(Platform.MAC.family());
             test.log(Status.INFO, "Environment: 'GRID', Running Grid On Mac Configuration");
-            if(browserName.equalsIgnoreCase(CHROME)) {
+            if (browserName.equalsIgnoreCase(CHROME)) {
                 cap.setBrowserName(browserName);
                 try {
                     driver = new RemoteWebDriver(new URL(NODEURL), cap);
@@ -224,7 +224,7 @@ public abstract class CommonAPI implements Config {
         if (platform.contains(WIN)) {
             cap.setPlatform(Platform.WINDOWS.family());
             test.log(Status.INFO, "Environment: 'GRID', Running Grid On Windows Configuration");
-            if(browserName.equalsIgnoreCase(CHROME)) {
+            if (browserName.equalsIgnoreCase(CHROME)) {
                 cap.setBrowserName(browserName);
                 try {
                     driver = new RemoteWebDriver(new URL(NODEURL), cap);
@@ -398,6 +398,16 @@ public abstract class CommonAPI implements Config {
     public void checkIfElementIsEmpty(WebElement element, long time) {
         new WebDriverWait(driver, time).until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(element, "")));
     }
+
+    public void acceptAlert() {
+        driver.switchTo().alert().accept();
+    }
+
+    public void dismissAlert() {
+        driver.switchTo().alert().dismiss();
+    }
+
+
 
     public Proxy getSeleniumProxy(BrowserMobProxy proxyServer) {
         Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxyServer);

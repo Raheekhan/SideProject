@@ -7,6 +7,10 @@ import org.openqa.selenium.WebDriver;
 
 public class AccountPage extends CommonAPI {
 
+    public HomePage homePage;
+
+    private static WebDriver driver;
+
     public AccountPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -50,13 +54,5 @@ public class AccountPage extends CommonAPI {
             test.log(Status.FAIL, "Facing issues loggedInWith changing password ...");
         }
         return isDisplayed(succChangedMsg);
-    }
-
-    public void loggedInWith(String username, String password) {
-        new HomePage(driver).loggedInWith(username, password);
-    }
-
-    public boolean successfulLoginMessage() {
-        return new HomePage(driver).successfulLoginMessage();
     }
 }
