@@ -2,8 +2,8 @@ package pages;
 
 import base.CommonAPI;
 import com.aventstack.extentreports.Status;
+import helper.Assertions;
 import helper.Waits;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -19,6 +19,15 @@ public class AccountPage extends CommonAPI {
         PageFactory.initElements(driver, this);
         wait = new Waits(driver);
     }
+
+    @FindBy(xpath = "//*[contains(text(),'Welcome to your account')]")
+    WebElement myPersonalInformation;
+
+    @FindBy(xpath = "//*[contains(text(),'Order history and details')]")
+    WebElement orderHistoryAndDetails;
+
+    @FindBy(xpath = "//*[contains(text(),'My personal information')]")
+    WebElement successfullyLoggedIn;
 
     @FindBy(xpath = "//i[@class='icon-user']")
     WebElement personalInfo;
@@ -70,5 +79,9 @@ public class AccountPage extends CommonAPI {
             test.log(Status.FAIL, "Facing issues loggedInWith changing password ...");
         }
         return true;
+    }
+
+    public boolean verifySuccessloginMsg() {
+        return Assertions.verifyElementPresent(successfullyLoggedIn);
     }
 }
