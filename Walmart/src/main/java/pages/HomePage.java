@@ -17,7 +17,7 @@ public class HomePage {
         wait = new Waits(driver);
     }
 
-    @FindBy(xpath = "//button[@class='header-GlobalSearch-submit btn']")
+    @FindBy(xpath = "//span[@class='elc-icon elc-icon-search']")
     WebElement searchButton;
 
     @FindBy(id = "global-search-input")

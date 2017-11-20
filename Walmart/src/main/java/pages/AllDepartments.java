@@ -8,8 +8,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.Properties;
-
 public class AllDepartments {
 
     private WebDriver driver;
@@ -82,7 +80,7 @@ public class AllDepartments {
          * file in the resources directory.
          */
 
-        if (department.equalsIgnoreCase("Electronic")) {
+        if (department.contains("Electronic")) {
             getElectronicsAndOffice();
             element.click();
         } else if (department.contains("Movies")) {

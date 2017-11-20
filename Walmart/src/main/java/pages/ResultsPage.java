@@ -35,6 +35,46 @@ public class ResultsPage {
     @FindBy(xpath = "//span[@class='zero-results-message alert active alert-warning']")
     WebElement noResultsPrice;
 
+    @FindBy(xpath = "//span[@alt='Icon for list']")
+    WebElement listView;
+
+    @FindBy(xpath = "//span[@alt='Icon for grid']")
+    WebElement gridView;
+
+    @FindBy(className = "search-result-listview-items")
+    WebElement isListView;
+
+    @FindBy(className = "search-result-gridview-items")
+    WebElement isGridView;
+
+    public void setListView() {
+        wait.waitUntilClickable(listView, 5);
+        listView.click();
+    }
+
+    public void setGridView() {
+        wait.waitUntilClickable(gridView, 5);
+        gridView.click();
+    }
+
+    public boolean isListViewPresent() {
+        if (!isListView.isDisplayed()) {
+            System.out.println("List View is not present");
+            return false;
+        }
+        System.out.println("List View is present");
+        return true;
+    }
+
+    public boolean isGridViewPresent() {
+        if (!isGridView.isDisplayed()) {
+            System.out.println("Grid View is not present");
+            return false;
+        }
+        System.out.println("Grid View is present");
+        return true;
+    }
+
     public boolean isRefineSearchPresent() {
         wait.waitUntilVisibilityOf(refineSearch, 10);
         if (refineSearch.isDisplayed()) {
