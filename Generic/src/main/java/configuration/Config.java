@@ -8,9 +8,6 @@ public interface Config {
      */
 
     String SAUCELABS              = "Saucelabs";
-    String SAUCELABS_USERNAME     = "ibrahimk";
-    String SAUCELABS_ACCESSKEY    = "d5900da9-fd61-4576-b9fc-221575b0a7fe";
-    String NODEURL                = "http://172.18.0.4:5555/wd/hub";
 
     String FIREFOX                = "firefox";
     String CHROME                 = "chrome";

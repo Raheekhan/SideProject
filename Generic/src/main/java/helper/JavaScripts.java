@@ -1,6 +1,5 @@
 package helper;
 
-import base.CommonAPI;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,8 +20,9 @@ public class JavaScripts {
         return ((JavascriptExecutor)driver).executeScript(script);
     }
 
-    public void scrollToElement(WebElement element) {
+    public WebElement scrollToElement(WebElement element) {
         executeScript("window.scrollTo(arguments[0],arguments[1])", element.getLocation().x, element.getLocation().y);
+        return element;
     }
 
     public void scrollToElementAndClick(WebElement element) {

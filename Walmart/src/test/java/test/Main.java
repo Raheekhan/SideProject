@@ -3,6 +3,7 @@ package test;
 import base.CommonAPI;
 import org.testng.annotations.Test;
 import pages.AllDepartments;
+import pages.HolidaySpecials;
 import pages.HomePage;
 import pages.ResultsPage;
 
@@ -12,7 +13,7 @@ public class Main extends CommonAPI {
 
     /**
      * To get the desired Department & Category, please refer
-     * to 'Departments.properties' file which is in the
+     * to 'departments.properties' file which is in the
      * resources folder, to gain a better understand on Departments.
      */
 
@@ -36,7 +37,7 @@ public class Main extends CommonAPI {
         resultsPage.checkIfResultsFound();
     }
 
-    @Test
+    @Test(enabled = false)
     public void checkIfListViewIsDisplaying() {
         HomePage homePage = new HomePage(driver);
         ResultsPage resultsPage = new ResultsPage(driver);
@@ -44,5 +45,13 @@ public class Main extends CommonAPI {
         assertTrue("Refine is not present", resultsPage.isRefineSearchPresent());
         resultsPage.setListView();
         assertTrue("List View not present", resultsPage.isListViewPresent());
+    }
+
+    @Test
+    public void colorSelectionHolidaySpecials() {
+        AllDepartments all = new AllDepartments(driver);
+        HolidaySpecials hs = new HolidaySpecials(driver);
+        all.getHolidaySpecials();
+        hs.selectColor("Blue");
     }
 }

@@ -66,6 +66,9 @@ public class AllDepartments {
     @FindBy(xpath = "(//a[text()='See All Departments'])[2]")
     WebElement SelectAllDepartments;
 
+    @FindBy(id = "header-GlobalLefthandNav-dropdown-list-item-0")
+    WebElement HolidaySpecial;
+
     public void hover(WebElement element) {
         action.moveToElement(element).perform();
     }
@@ -76,7 +79,7 @@ public class AllDepartments {
         WebElement element = driver.findElement(By.xpath("//a[text()='" + category + "']"));
 
         /**
-         * All the Departments are in the 'Departments.properties'
+         * All the Departments are in the 'departments.properties'
          * file in the resources directory.
          */
 
@@ -130,6 +133,12 @@ public class AllDepartments {
     public void selectDepartments() {
         wait.waitUntilClickable(Departments, 5);
         hover(Departments);
+    }
+
+    public void getHolidaySpecials() {
+        selectDepartments();
+        wait.waitUntilClickable(HolidaySpecial, 5);
+        HolidaySpecial.click();
     }
 
     public void getElectronicsAndOffice() {

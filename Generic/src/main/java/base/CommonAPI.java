@@ -33,10 +33,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 public class CommonAPI implements Config {
 
@@ -54,19 +50,21 @@ public class CommonAPI implements Config {
         extent.attachReporter(htmlReporter);
     }
 
-    @Parameters({"useHeadlessEnv", "useGridEnv", "useLocalEnv", "useCloudEnv",
-            "cloudEnvName", "platform", "platformVersion", "browserName", "browserVersion" , "url"})
+    @Parameters({"useHeadlessEnv", "useGridEnv", "nodeURL", "useLocalEnv", "useCloudEnv",
+            "cloudEnvName", "platform", "platformVersion", "browserName", "browserVersion",
+            "url", "sauceUser", "saucePass"})
     @BeforeMethod
-    protected void setUp(@Optional boolean useHeadlessEnv, @Optional boolean useGridEnv,
+    protected void setUp(@Optional boolean useHeadlessEnv, @Optional boolean useGridEnv, @Optional String nodeURL,
                          @Optional boolean useLocalEnv, @Optional boolean useCloudEnv, @Optional String cloudEnvName,
                          @Optional String platform, @Optional String platformVersion, @Optional String browserName,
-                         @Optional String browserVersion, @Optional String url, @Optional Method method) {
+                         @Optional String browserVersion, @Optional String url, @Optional Method method,
+                         @Optional String sauceUser, @Optional String saucePass) {
 
         test = extent.createTest(method.getName());
 
         if (useCloudEnv) {
             if (cloudEnvName.equalsIgnoreCase(SAUCELABS)) {
-                getCloudDriver(cloudEnvName, SAUCELABS_USERNAME, SAUCELABS_ACCESSKEY,
+                getCloudDriver(cloudEnvName, sauceUser, saucePass,
                         platform, platformVersion, browserName, browserVersion);
             } else {
                 test.log(Status.FAIL, "Invalid Choice Of Cloud Environment");
@@ -74,7 +72,7 @@ public class CommonAPI implements Config {
         } else if (useLocalEnv) {
             getLocalDriver(platform, browserName);
         } else if (useGridEnv) {
-            getGridDriver(platform, browserName);
+            getGridDriver(platform, browserName, nodeURL);
         } else if (useHeadlessEnv) {
             getHeadlessDriver(platform);
         }
@@ -195,7 +193,7 @@ public class CommonAPI implements Config {
         return driver;
     }
 
-    protected WebDriver getGridDriver(String platform, String browserName) {
+    protected WebDriver getGridDriver(String platform, String browserName, String nodeURL) {
         DesiredCapabilities cap = new DesiredCapabilities();
 
         if (platform.contains(MAC)) {
@@ -204,7 +202,7 @@ public class CommonAPI implements Config {
             if (browserName.equalsIgnoreCase(CHROME)) {
                 cap.setBrowserName(browserName);
                 try {
-                    driver = new RemoteWebDriver(new URL(NODEURL), cap);
+                    driver = new RemoteWebDriver(new URL(nodeURL), cap);
                     test.log(Status.INFO, "Environment: 'GRID', Launching Chrome Browser For Grid");
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -212,7 +210,7 @@ public class CommonAPI implements Config {
             } else if (browserName.equalsIgnoreCase(FIREFOX)) {
                 cap.setBrowserName(browserName);
                 try {
-                    driver = new RemoteWebDriver(new URL(NODEURL), cap);
+                    driver = new RemoteWebDriver(new URL(nodeURL), cap);
                     test.log(Status.INFO, "Environment: 'GRID', Launching Firefox Browser For Grid");
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -226,7 +224,7 @@ public class CommonAPI implements Config {
             if (browserName.equalsIgnoreCase(CHROME)) {
                 cap.setBrowserName(browserName);
                 try {
-                    driver = new RemoteWebDriver(new URL(NODEURL), cap);
+                    driver = new RemoteWebDriver(new URL(nodeURL), cap);
                     test.log(Status.INFO, "Environment: 'GRID', Launching Chrome Browser For Grid");
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -234,7 +232,7 @@ public class CommonAPI implements Config {
             } else if (browserName.equalsIgnoreCase(FIREFOX)) {
                 cap.setBrowserName(browserName);
                 try {
-                    driver = new RemoteWebDriver(new URL(NODEURL), cap);
+                    driver = new RemoteWebDriver(new URL(nodeURL), cap);
                     test.log(Status.INFO, "Environment: 'GRID', Launching Firefox Browser For Grid");
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -385,7 +383,7 @@ public class CommonAPI implements Config {
         }
     }
 
-    public static void verifyLinkActive(String linkUrl) {
+    private static void verifyLinkActive(String linkUrl) {
         try {
             URL url = new URL(linkUrl);
             HttpURLConnection httpURLConnect = (HttpURLConnection) url.openConnection();

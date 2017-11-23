@@ -2,17 +2,34 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name = "E-Commerce Automation" parallel="tests" verbose="1">
 
-    <test name="E-Commerce Chrome">
+    <!--<test name="E-Commerce Chrome">-->
 
+        <!--<parameter name="useLocalEnv" value="true"/>-->
+        <!--<parameter name="useHeadlessEnv" value="false"/>-->
+        <!--<parameter name="useGridEnv" value="false"/>-->
+        <!--&lt;!&ndash;<parameter name="nodeURL" value="http://172.18.0.4:5555/wd/hub"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<parameter name="sauceUser" value=""/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<parameter name="saucePass" value=""/>&ndash;&gt;-->
+        <!--<parameter name="useCloudEnv" value="false"/>-->
+        <!--&lt;!&ndash;<parameter name="cloudEnvName" value="Saucelabs"/>&ndash;&gt;-->
+        <!--<parameter name="platform" value="macOS"/>-->
+        <!--&lt;!&ndash;<parameter name="platformVersion" value="10.12"/>&ndash;&gt;-->
+        <!--<parameter name="browserName" value="chrome"/>-->
+        <!--&lt;!&ndash;<parameter name="browserVersion" value="61.0"/>&ndash;&gt;-->
+        <!--<parameter name="url" value="https://www.walmart.com/"/>-->
+
+        <!--<classes>-->
+            <!--<class name="test.Main"/>-->
+        <!--</classes>-->
+    <!--</test>-->
+
+    <test name="Test">
         <parameter name="useLocalEnv" value="true"/>
         <parameter name="useHeadlessEnv" value="false"/>
         <parameter name="useGridEnv" value="false"/>
         <parameter name="useCloudEnv" value="false"/>
-        <parameter name="cloudEnvName" value="Saucelabs"/>
         <parameter name="platform" value="macOS"/>
-        <parameter name="platformVersion" value="10.12"/>
         <parameter name="browserName" value="chrome"/>
-        <parameter name="browserVersion" value="61.0"/>
         <parameter name="url" value="https://www.walmart.com/"/>
 
         <classes>

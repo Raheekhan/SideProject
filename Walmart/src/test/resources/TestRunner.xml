@@ -7,6 +7,9 @@
         <parameter name="useLocalEnv" value="true"/>
         <parameter name="useHeadlessEnv" value="false"/>
         <parameter name="useGridEnv" value="false"/>
+        <parameter name="nodeURL" value="http://172.18.0.4:5555/wd/hub"/>
+        <parameter name="sauceUser" value=""/>
+        <parameter name="saucePass" value=""/>
         <parameter name="useCloudEnv" value="false"/>
         <parameter name="cloudEnvName" value="Saucelabs"/>
         <parameter name="platform" value="macOS"/>
