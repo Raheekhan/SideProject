@@ -1,5 +1,6 @@
 package pages;
 
+import base.BaseUtil;
 import helper.Waits;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -99,7 +100,7 @@ public class ResultsPage {
             System.out.println("Items Found After Search");
             return true;
         }
-        System.out.println("No Items Found After Search");
+        System.out.println("No Items Found With Matching Requirements After Search");
         return false;
     }
 }

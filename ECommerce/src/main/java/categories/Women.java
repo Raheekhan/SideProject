@@ -1,5 +1,6 @@
 package categories;
 
+import base.BaseUtil;
 import base.CommonAPI;
 import com.aventstack.extentreports.Status;
 import helper.Waits;
@@ -9,7 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class Women extends CommonAPI {
+public class Women extends BaseUtil {
 
     private WebDriver driver;
     private Waits wait;

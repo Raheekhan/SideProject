@@ -1,6 +1,6 @@
 package test;
 
-import base.CommonAPI;
+import base.BaseUtil;
 import org.testng.annotations.Test;
 import pages.AllDepartments;
 import pages.HolidaySpecials;
@@ -9,7 +9,7 @@ import pages.ResultsPage;
 
 import static org.junit.Assert.assertTrue;
 
-public class Main extends CommonAPI {
+public class Main extends BaseUtil {
 
     /**
      * To get the desired Department & Category, please refer
@@ -27,7 +27,7 @@ public class Main extends CommonAPI {
         resultsPage.checkIfResultsFound();
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void executeSearchAndRefinePrice() {
         HomePage homePage = new HomePage(driver);
         ResultsPage resultsPage = new ResultsPage(driver);
@@ -47,7 +47,7 @@ public class Main extends CommonAPI {
         assertTrue("List View not present", resultsPage.isListViewPresent());
     }
 
-    @Test
+    @Test(enabled = false)
     public void colorSelectionHolidaySpecials() {
         AllDepartments all = new AllDepartments(driver);
         HolidaySpecials hs = new HolidaySpecials(driver);

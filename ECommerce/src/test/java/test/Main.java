@@ -1,5 +1,6 @@
 package test;
 
+import base.BaseUtil;
 import base.CommonAPI;
 import categories.Women;
 import dataprovider.DataProviders;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
-public class Main extends CommonAPI {
+public class Main extends BaseUtil {
 
     @Test(enabled = false, dataProvider = "Credentials", dataProviderClass = DataProviders.class)
     public void loginAndChangePasswordThenLogOut(String username, String password) {

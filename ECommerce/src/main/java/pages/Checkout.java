@@ -1,5 +1,6 @@
 package pages;
 
+import base.BaseUtil;
 import base.CommonAPI;
 import com.aventstack.extentreports.Status;
 import helper.Browsers;
@@ -11,7 +12,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import static org.junit.Assert.assertTrue;
 
-public class Checkout extends CommonAPI {
+public class Checkout extends BaseUtil {
 
     private WebDriver driver;
     private Waits wait;

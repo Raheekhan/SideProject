@@ -4,11 +4,26 @@
 
     <test name="E-Commerce Chrome">
 
+        <!-- All the parameters are not needed to run as they are @Optional
+        In the CommonAPI Class in the @Before parameters, so to run with most
+        basic configuration you need to have:
+        'useHeadlessEnv', 'useGridEnv', 'useLocalEnv', 'useCloudEnv', and
+        'platform', 'browserName', 'url' is enough. The rest is for using with Grid/Cloud
+        configuration to specify eg. platform version, browser version.
+
+
+         The reason you need to include the Headless, Grid and Cloud is because they are
+         boolean (Look In CommonAPI '@Before'), as they are used to determine if they are
+         being run or not. -->
+
         <parameter name="useLocalEnv" value="true"/>
         <parameter name="useHeadlessEnv" value="false"/>
         <parameter name="useGridEnv" value="false"/>
+        <parameter name="nodeURL" value="http://172.18.0.4:5555/wd/hub"/>
         <parameter name="useCloudEnv" value="false"/>
         <parameter name="cloudEnvName" value="Saucelabs"/>
+        <parameter name="sauceUser" value=""/>
+        <parameter name="saucePass" value=""/>
         <parameter name="platform" value="macOS"/>
         <parameter name="platformVersion" value="10.12"/>
         <parameter name="browserName" value="chrome"/>

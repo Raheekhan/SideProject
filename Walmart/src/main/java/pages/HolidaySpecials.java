@@ -1,6 +1,6 @@
 package pages;
 
-import helper.JavaScripts;
+import base.BaseUtil;
 import helper.Waits;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class HolidaySpecials {
+public class HolidaySpecials extends BaseUtil {
 
     private WebDriver driver;
     private Waits wait;

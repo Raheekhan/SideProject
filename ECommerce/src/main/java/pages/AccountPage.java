@@ -1,5 +1,6 @@
 package pages;
 
+import base.BaseUtil;
 import base.CommonAPI;
 import com.aventstack.extentreports.Status;
 import helper.Assertions;
@@ -9,7 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class AccountPage extends CommonAPI {
+public class AccountPage extends BaseUtil {
 
     private WebDriver driver;
     private Waits wait;

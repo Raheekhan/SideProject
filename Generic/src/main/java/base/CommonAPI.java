@@ -10,13 +10,10 @@ import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.*;
@@ -32,7 +29,6 @@ import java.net.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class CommonAPI implements Config {
 
@@ -40,8 +36,6 @@ public class CommonAPI implements Config {
     public static ExtentTest test;
 
     public WebDriver driver;
-
-    public JavascriptExecutor jse = (JavascriptExecutor) driver;
 
     @BeforeSuite
     protected void startExtentReporting() {
@@ -73,9 +67,10 @@ public class CommonAPI implements Config {
             getLocalDriver(platform, browserName);
         } else if (useGridEnv) {
             getGridDriver(platform, browserName, nodeURL);
-        } else if (useHeadlessEnv) {
-            getHeadlessDriver(platform);
         }
+//        else if (useHeadlessEnv) {
+//            getHeadlessDriver(platform);
+//        }
         driver.manage().window().maximize();
         test.log(Status.INFO, "Browser Maximized");
         driver.navigate().to(url);
@@ -173,25 +168,25 @@ public class CommonAPI implements Config {
         return driver;
     }
 
-    public WebDriver getHeadlessDriver(String platform) {
-
-        DesiredCapabilities cap = new DesiredCapabilities();
-        cap.setJavascriptEnabled(true); // * Ignoring Web Security
-        cap.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[] {"--web-security=no", "--ignore-ssl-errors=yes"});
-        // Setting Capabilities to ignore HTTPS and go with HTTP, al though less secure, PhantomJS
-        // sometimes fails with HTTPS Requests. *
-
-        if(platform.contains(MAC)) {
-            System.setProperty(PHANTOMJS_PATH, PHANTOMJS);
-            driver = new PhantomJSDriver(cap);
-            test.log(Status.INFO, "Environment: 'GHOST', Launched PhantonJS Driver For Mac");
-        } else if (platform.contains(WIN)) {
-            System.setProperty(PHANTOMJS_PATH, PHANTOMJS_EXE);
-            driver = new PhantomJSDriver(cap);
-            test.log(Status.INFO, "Environment: 'GHOST', Launched PhantonJS Driver for Windows");
-        }
-        return driver;
-    }
+//    public WebDriver getHeadlessDriver(String platform) {
+//
+//        DesiredCapabilities cap = new DesiredCapabilities();
+//        cap.setJavascriptEnabled(true); // * Ignoring Web Security
+//        cap.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[] {"--web-security=no", "--ignore-ssl-errors=yes"});
+//        // Setting Capabilities to ignore HTTPS and go with HTTP, al though less secure, PhantomJS
+//        // sometimes fails with HTTPS Requests. *
+//
+//        if(platform.contains(MAC)) {
+//            System.setProperty(PHANTOMJS_PATH, PHANTOMJS);
+//            driver = new PhantomJSDriver(cap);
+//            test.log(Status.INFO, "Environment: 'GHOST', Launched PhantonJS Driver For Mac");
+//        } else if (platform.contains(WIN)) {
+//            System.setProperty(PHANTOMJS_PATH, PHANTOMJS_EXE);
+//            driver = new PhantomJSDriver(cap);
+//            test.log(Status.INFO, "Environment: 'GHOST', Launched PhantonJS Driver for Windows");
+//        }
+//        return driver;
+//    }
 
     protected WebDriver getGridDriver(String platform, String browserName, String nodeURL) {
         DesiredCapabilities cap = new DesiredCapabilities();
@@ -271,85 +266,15 @@ public class CommonAPI implements Config {
         dateFormat.format(date);
 
         File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-//        File screenshotFile = new File(System.getProperty("user.dir") +
-//                "/screenshots/" + screenshotName + " " + dateFormat.format(date) + ".png");
-        String destination = System.getProperty("user.dir") +
-                "/screenshots/" + screenshotName + " " + dateFormat.format(date) + ".png";
-        File screenshotFile = new File(destination);
+        File screenshotFile = new File(System.getProperty("user.dir") +
+                "/screenshots/" + screenshotName + " " + dateFormat.format(date) + ".png");
         try {
             FileUtils.copyFile(file, screenshotFile);
         } catch (IOException e) {
             System.out.println("Exception while taking screenshot: " + e.getMessage());
             e.printStackTrace();
         }
-        return destination;
-    }
-
-    public String randomUsernameGenerator() {
-        String username = RandomStringUtils.randomAlphabetic(8);
-        return username;
-    }
-
-    public String randomPasswordGenerator() {
-        String password = RandomStringUtils.randomAlphanumeric(4) + RandomStringUtils.randomAlphabetic(4);
-        return password;
-    }
-
-    public String randomEmailGenerator() {
-        String username = RandomStringUtils.randomAlphabetic(8) + "@gmail.com";
-        return username;
-    }
-
-    public WebElement find(By locator) {
-        return driver.findElement(locator);
-    }
-
-    public void click(By locator) {
-        find(locator).click();
-    }
-
-    public void clear(By locator) {
-        find(locator).clear();
-    }
-
-    public void type(String inputText, By locator) {
-        find(locator).sendKeys(inputText);
-    }
-
-    public boolean isSelected(By locator) {
-        try {
-            return find(locator).isSelected();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
-    public boolean isSelected(By locator, Integer timeout) {
-        try {
-            new WebDriverWait(driver, timeout)
-                    .until(ExpectedConditions.visibilityOfElementLocated(locator));
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isDisplayed(By locator) {
-        try {
-            return find(locator).isDisplayed();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
-    public boolean isDisplayed(By locator, Integer timeout) {
-        try {
-            new WebDriverWait(driver, timeout)
-                    .until(ExpectedConditions.visibilityOfElementLocated(locator));
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-        return true;
+        return screenshotName;
     }
 
     public Proxy getSeleniumProxy(BrowserMobProxy proxyServer) {
@@ -370,33 +295,5 @@ public class CommonAPI implements Config {
         proxy.setTrustAllServers(true);
         proxy.start();
         return proxy;
-    }
-
-    public void findIfLinksAreBroken() {
-        List<WebElement> links = driver.findElements(By.tagName("a"));
-        System.out.println("Total links in " + driver.getCurrentUrl() + " are: " + links.size());
-        System.out.println("==================================================================");
-        for(int i = 0; i < links.size(); i++) {
-            WebElement element = links.get(i);
-            String url = element.getAttribute("href");
-            verifyLinkActive(url);
-        }
-    }
-
-    private static void verifyLinkActive(String linkUrl) {
-        try {
-            URL url = new URL(linkUrl);
-            HttpURLConnection httpURLConnect = (HttpURLConnection) url.openConnection();
-            httpURLConnect.setConnectTimeout(3000);
-            httpURLConnect.connect();
-            if (httpURLConnect.getResponseCode() == 200) {
-                System.out.println(linkUrl + " - " + httpURLConnect.getResponseMessage());
-            }
-            if (httpURLConnect.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
-                System.out.println(linkUrl + " - " + httpURLConnect.getResponseMessage() + " - " + HttpURLConnection.HTTP_NOT_FOUND);
-            }
-        } catch (Exception e) {
-
-        }
     }
 }
