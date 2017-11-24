@@ -2,7 +2,7 @@
 
 Just a simple project using a Page Factory approach in a Hybrid Framework fashion.
 
-Recently added Driver Factory to, the CommonAPI Class was getting clogged up, so
+Recently added Driver Factory Classes, the CommonAPI Class was getting clogged up, so
 I decided to clean it up and moving helper Methods to separate classes.
 
 I have added Data Driven using [JXL](http://jexcelapi.sourceforge.net/), al though I have plans to add
