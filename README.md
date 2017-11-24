@@ -1,16 +1,21 @@
 # SideProject
 
-Just a simple Side Project to build a Hybrid Framework from the ground up.
-I am adding functions slowly and making simple Test Cases.
+Just a simple project using a Page Factory approach in a Hybrid Framework fashion.
 
-I am using a Page Factory approach.
+Recently added Driver Factory to, the CommonAPI Class was getting clogged up, so
+I decided to clean it up and moving helper Methods to separate classes.
 
-I've added Data Driven, Cloud Environments, Headless Driver and also playing
-around with [BrowserMob Proxy](https://bmp.lightbody.net/), testing to catch all HTTP Requests during the
-execution of Tests and put the HTTP Requests into a file, in order for me
-to convert it into a .JMX file which would be used in JMeter.
+I have added Data Driven using [JXL](http://jexcelapi.sourceforge.net/), al though I have plans to add
+[Apache POI](https://poi.apache.org/) to replace it.
 
-However using BrowserMob Proxies are causing massive slowdown during the
-executions, so I am working on a different approach (In Progress).
+I am also playing around with catching HTTP Request from the browser in order to convert
+it into a .JMX file to be used in JMeter for Performance Testing.
+I have experimented with [BrowserMob Proxy](https://bmp.lightbody.net/), however it drastically slows down
+the performance of the Test Cases, rather failing them, even though they should be
+bullet proof.
 
-The purpose of this project is for learning.
+I've read that the same thing could be done in a simpler way with [PhantomJS](http://phantomjs.org/) Headless Browser.
+But on recent announcements from Selenium HQ, the support is no longer there as Chrome have
+added headless options on their own.
+
+This project is nothing but practice.
