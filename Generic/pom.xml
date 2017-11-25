@@ -68,6 +68,11 @@
                 <artifactId>gson</artifactId>
             </dependency>
 
+            <dependency>
+                <groupId>com.testautomationguru.ocular</groupId>
+                <artifactId>ocular</artifactId>
+            </dependency>
+
         </dependencies>
 
     <build>

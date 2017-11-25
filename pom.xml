@@ -83,6 +83,12 @@
                 <version>2.8.2</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.testautomationguru.ocular</groupId>
+                <artifactId>ocular</artifactId>
+                <version>1.0.0.Alpha</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

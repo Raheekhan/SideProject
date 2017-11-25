@@ -7,8 +7,6 @@ public interface Config {
      * put here to avoid dealing with Properties
      */
 
-    String SAUCELABS              = "Saucelabs";
-
     String FIREFOX                = "firefox";
     String CHROME                 = "chrome";
 

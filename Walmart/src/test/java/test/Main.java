@@ -2,10 +2,7 @@ package test;
 
 import base.BaseUtil;
 import org.testng.annotations.Test;
-import pages.AllDepartments;
-import pages.HolidaySpecials;
-import pages.HomePage;
-import pages.ResultsPage;
+import pages.*;
 
 import static org.junit.Assert.assertTrue;
 
@@ -53,5 +50,11 @@ public class Main extends BaseUtil {
         HolidaySpecials hs = new HolidaySpecials(driver);
         all.getHolidaySpecials();
         hs.selectColor("Blue");
+    }
+
+    @Test(enabled = false)
+    public void testing() {
+        RichFace face = new RichFace(driver);
+        face.compare();
     }
 }

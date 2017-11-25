@@ -2,5 +2,6 @@ package driverfactory;
 
 public enum DriverType {
     CHROME,
-    FIREFOX
+    FIREFOX,
+    REMOTE
 }

@@ -2,9 +2,9 @@ package base;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import com.testautomationguru.ocular.Ocular;
 import driverfactory.DriverManager;
 import driverfactory.DriverManagerFactory;
 import driverfactory.DriverType;
@@ -19,6 +19,7 @@ import reporting.ExtentManager;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,7 +29,7 @@ import static configuration.Config.EXTENT_REPORTS_PATH;
 public class BaseUtil {
 
     private DriverManager driverManager;
-    public WebDriver driver;
+    public WebDriver driver = null;
 
     private static ExtentReports extent;
     public static ExtentTest test;
@@ -38,6 +39,11 @@ public class BaseUtil {
         extent = ExtentManager.createInstance();
         ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(EXTENT_REPORTS_PATH);
         extent.attachReporter(htmlReporter);
+        Ocular.config()
+                .resultPath(Paths.get(System.getProperty("user.dir") + "/ocular/result"))
+                .snapshotPath(Paths.get(System.getProperty("user.dir") + "/ocular/snpshot"))
+                .globalSimilarity(99)
+                .saveSnapshot(true);
     }
 
     @BeforeMethod
@@ -49,7 +55,6 @@ public class BaseUtil {
         if (useLocalEnv) {
             getLocalDriver(browserName);
         }
-
         driver.manage().window().maximize();
         driver.navigate().to(url);
         test.log(Status.INFO, "Navigated To " + driver.getCurrentUrl());

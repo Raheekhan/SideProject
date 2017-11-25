@@ -1,6 +1,5 @@
 package pages;
 
-import base.BaseUtil;
 import helper.Waits;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

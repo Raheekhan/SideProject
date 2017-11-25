@@ -57,7 +57,7 @@ public class CommonAPI implements Config {
         test = extent.createTest(method.getName());
 
         if (useCloudEnv) {
-            if (cloudEnvName.equalsIgnoreCase(SAUCELABS)) {
+            if (cloudEnvName.equalsIgnoreCase("Saucelabs")) {
                 getCloudDriver(cloudEnvName, sauceUser, saucePass,
                         platform, platformVersion, browserName, browserVersion);
             } else {
@@ -157,7 +157,7 @@ public class CommonAPI implements Config {
 
         String sauceURL = String.format("http://%s:%s@ondemand.saucelabs.com:80/wd/hub", envUsername, envAccessKey);
 
-        if(cloudEnvName.equalsIgnoreCase(SAUCELABS)) {
+        if(cloudEnvName.equalsIgnoreCase("Saucelabs")) {
             try {
                 driver = new RemoteWebDriver(new URL(sauceURL), cap);
                 test.log(Status.INFO, "Environment: 'CLOUD', Remote Web Driver Launched With Saucelabs");
