@@ -1,12 +1,13 @@
 package test;
 
 import base.BaseUtil;
+import base.CommonAPI;
 import org.testng.annotations.Test;
 import pages.*;
 
 import static org.junit.Assert.assertTrue;
 
-public class Main extends BaseUtil {
+public class Main extends CommonAPI {
 
     /**
      * To get the desired Department & Category, please refer
