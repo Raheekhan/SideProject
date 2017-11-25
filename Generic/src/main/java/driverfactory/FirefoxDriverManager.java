@@ -10,7 +10,7 @@ import java.io.File;
 public class FirefoxDriverManager extends DriverManager {
 
     private GeckoDriverService ffService;
-    private String driverPath = "/Users/ibrahimkhan/IdeaProjects/SideProject/Generic/drivers/macdriver/geckodriver";
+    private String driverPath = "../Generic/drivers/macdriver/geckodriver";
 
     @Override
     public void startService() {

@@ -10,7 +10,7 @@ import java.io.File;
 public class ChromeDriverManager extends DriverManager {
 
     private ChromeDriverService chService;
-    private String driverPath = "/Users/ibrahimkhan/IdeaProjects/SideProject/Generic/drivers/macdriver/chromedriver";
+    private String driverPath = "../Generic/drivers/macdriver/chromedriver";
 
     @Override
     public void startService() {
