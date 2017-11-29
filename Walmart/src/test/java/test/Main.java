@@ -52,10 +52,4 @@ public class Main extends CommonAPI {
         all.getHolidaySpecials();
         hs.selectColor("Blue");
     }
-
-    @Test(enabled = false)
-    public void testing() {
-        RichFace face = new RichFace(driver);
-        face.compare();
-    }
 }

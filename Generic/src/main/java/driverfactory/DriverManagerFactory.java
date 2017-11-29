@@ -13,8 +13,6 @@ public class DriverManagerFactory {
             case FIREFOX:
                 driverManager = new FirefoxDriverManager();
                 break;
-            case REMOTE:
-                driverManager = new RemoteDriverManager();
         }
         return driverManager;
     }

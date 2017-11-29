@@ -6,6 +6,7 @@ import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import configuration.Config;
+import driverfactory.DriverFactory;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.client.ClientUtil;
@@ -16,7 +17,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.*;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -35,7 +35,7 @@ public class CommonAPI implements Config {
     private static ExtentReports extent;
     public static ExtentTest test;
 
-    public WebDriver driver;
+    public static WebDriver driver;
 
     @BeforeSuite
     protected void startExtentReporting() {
@@ -64,6 +64,7 @@ public class CommonAPI implements Config {
                 test.log(Status.FAIL, "Invalid Choice Of Cloud Environment");
             }
         } else if (useLocalEnv) {
+            //getLocalDriver(platform, browserName);
             getLocalDriver(platform, browserName);
         } else if (useGridEnv) {
             getGridDriver(platform, browserName, nodeURL);
@@ -114,33 +115,18 @@ public class CommonAPI implements Config {
 //        return driver;
 //    }
 
-    protected WebDriver getLocalDriver(String platform, String browserName) {
-
-        if (platform.contains(MAC)) {
-            if (browserName.equalsIgnoreCase(FIREFOX)) {
-                System.setProperty(GECKODRIVER_PATH, GECKODRIVER);
-                driver = new FirefoxDriver();
-                test.log(Status.INFO, "Environment: 'LOCAL', Firefox Driver For Mac Executed");
-            } else if (browserName.equalsIgnoreCase(CHROME)) {
-                System.setProperty(CHROMEDRIVER_PATH, CHROMEDRIVER);
-                driver = new ChromeDriver();
-                test.log(Status.INFO, "Environment: 'LOCAL', Chrome Driver For Mac Executed");
-            } else {
-                System.err.println("ERROR: Choose from: Firefox/Chrome");
-                test.log(Status.FAIL, "Invalid Choice Of Driver");
+    public WebDriver getLocalDriver(String platform, String browserName) {
+        if (platform.contains("mac")) {
+            if (browserName.equalsIgnoreCase("Chrome")) {
+                DriverFactory.getChromeDriverOnMac();
+            } else if (browserName.equalsIgnoreCase("Firefox")) {
+                DriverFactory.getFirefoxDriverOnMac();
             }
-        } else if (platform.contains(WIN)) {
-            if (browserName.equalsIgnoreCase(FIREFOX)) {
-                System.setProperty(GECKODRIVER_PATH, GECKODRIVER_EXE);
-                driver = new FirefoxDriver();
-                test.log(Status.INFO, "Environment: 'LOCAL', Firefox Driver For Windows Executed");
-            } else if (browserName.equalsIgnoreCase(CHROME)) {
-                System.setProperty(CHROMEDRIVER_PATH, CHROMEDRIVER_EXE);
-                driver = new ChromeDriver();
-                test.log(Status.INFO, "Environment: 'LOCAL', Chrome Driver For Windows Executed");
-            } else {
-                System.err.println("ERROR: Choose from: Firefox/Chrome");
-                test.log(Status.FAIL, "Invalid Choice Of Driver");
+        } else if (platform.contains("win")) {
+            if (browserName.equalsIgnoreCase("Chrome")) {
+                DriverFactory.getChromeDriverOnWin();
+            } else if (browserName.equalsIgnoreCase("Firefox")) {
+                DriverFactory.getFirefoxDriverOnWin();
             }
         }
         return driver;
@@ -295,5 +281,21 @@ public class CommonAPI implements Config {
         proxy.setTrustAllServers(true);
         proxy.start();
         return proxy;
+    }
+
+    public static WebElement getElement(String locator) {
+        boolean flag = false;
+        if (locator.contains("/")) flag = true;
+        if (driver.findElements(By.id(locator)).size() == 1) {
+            return driver.findElement(By.id(locator));
+        } else if (driver.findElements(By.name(locator)).size() == 1) {
+            return driver.findElement(By.name(locator));
+        } else if (!flag && driver.findElements(By.cssSelector(locator)).size() == 1) {
+            return driver.findElement(By.cssSelector(locator));
+        } else if (driver.findElements(By.xpath(locator)).size() == 1) {
+            return driver.findElement(By.xpath(locator));
+        } else {
+            throw new NoSuchElementException("No Such Element: " + locator);
+        }
     }
 }
