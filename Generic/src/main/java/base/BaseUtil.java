@@ -41,7 +41,7 @@ public class BaseUtil {
         extent.attachReporter(htmlReporter);
         Ocular.config()
                 .resultPath(Paths.get(System.getProperty("user.dir") + "/ocular/result"))
-                .snapshotPath(Paths.get(System.getProperty("user.dir") + "/ocular/snpshot"))
+                .snapshotPath(Paths.get(System.getProperty("user.dir") + "/ocular/snapshot"))
                 .globalSimilarity(99)
                 .saveSnapshot(true);
     }

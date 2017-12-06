@@ -5,6 +5,7 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import com.testautomationguru.ocular.Ocular;
 import configuration.Config;
 import driverfactory.DriverFactory;
 import net.lightbody.bmp.BrowserMobProxy;
@@ -26,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.*;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,6 +44,11 @@ public class CommonAPI implements Config {
         extent = ExtentManager.createInstance();
         ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(EXTENT_REPORTS_PATH);
         extent.attachReporter(htmlReporter);
+        Ocular.config()
+                .resultPath(Paths.get(System.getProperty("user.dir") + "/ocular/result"))
+                .snapshotPath(Paths.get(System.getProperty("user.dir") + "/ocular/snapshot"))
+                .globalSimilarity(99)
+                .saveSnapshot(true);
     }
 
     @Parameters({"useHeadlessEnv", "useGridEnv", "nodeURL", "useLocalEnv", "useCloudEnv",
@@ -236,7 +243,10 @@ public class CommonAPI implements Config {
             test.log(Status.SKIP, "Screenshot: ", MediaEntityBuilder.createScreenCaptureFromPath(path).build());
             test.skip(result.getThrowable());
         }
-        driver.quit();
+
+        if (driver != null) {
+            driver.quit();
+        }
         test.log(Status.INFO, "Quitting Driver");
     }
 

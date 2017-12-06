@@ -11,6 +11,10 @@
 
     <artifactId>Walmart</artifactId>
 
+    <properties>
+        <aspectj.version>1.8.11</aspectj.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.capitalone</groupId>
@@ -40,9 +44,18 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>target/test-classes/TestRunner.xml</suiteXmlFile>
                     </suiteXmlFiles>
+                    <argLine>
+                        -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
+                    </argLine>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
-
         </plugins>
     </build>
 

@@ -1,11 +1,15 @@
 package pages;
 
+import com.testautomationguru.ocular.Ocular;
+import com.testautomationguru.ocular.comparator.OcularResult;
+import com.testautomationguru.ocular.snapshot.Snap;
 import helper.Waits;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+@Snap("ResultsPage.png")
 public class ResultsPage {
 
     private WebDriver driver;
@@ -58,31 +62,18 @@ public class ResultsPage {
     }
 
     public boolean isListViewPresent() {
-        if (!isListView.isDisplayed()) {
-            System.out.println("List View is not present");
-            return false;
-        }
-        System.out.println("List View is present");
-        return true;
+        wait.waitUntilVisibilityOf(isListView, 10);
+        return(!isListView.isDisplayed());
     }
 
     public boolean isGridViewPresent() {
-        if (!isGridView.isDisplayed()) {
-            System.out.println("Grid View is not present");
-            return false;
-        }
-        System.out.println("Grid View is present");
-        return true;
+        wait.waitUntilVisibilityOf(isGridView, 10);
+        return(!isGridView.isDisplayed());
     }
 
     public boolean isRefineSearchPresent() {
         wait.waitUntilVisibilityOf(refineSearch, 10);
-        if (refineSearch.isDisplayed()) {
-            System.out.println("Refine Is Present");
-            return true;
-        }
-        System.out.println("Refine Is Not Present");
-        return false;
+        return(refineSearch.isDisplayed());
     }
 
     public void refinePrice(String min, String max) {
@@ -95,11 +86,11 @@ public class ResultsPage {
 
     public boolean checkIfResultsFound() {
         wait.waitUntilVisibilityOf(noResultsPrice, 10);
-        if (!noResultsPrice.isDisplayed()) {
-            System.out.println("Items Found After Search");
-            return true;
-        }
-        System.out.println("No Items Found With Matching Requirements After Search");
-        return false;
+        compare();
+        return(!noResultsPrice.isDisplayed());
+    }
+
+    public OcularResult compare() {
+        return Ocular.snapshot().from(this).sample().using(driver).compare();
     }
 }

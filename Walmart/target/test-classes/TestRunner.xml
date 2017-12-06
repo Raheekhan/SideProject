@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name = "E-Commerce Automation" parallel="tests" verbose="1">
+<suite name = "Walmart Automation" parallel="tests" verbose="1">
 
-    <test name="Walmart Chrome">
+    <test name="Walmart LocalDriver">
 
         <parameter name="useLocalEnv" value="true"/>
         <parameter name="useHeadlessEnv" value="false"/>

@@ -3,6 +3,7 @@ package pages;
 import base.BaseUtil;
 import base.CommonAPI;
 import helper.Waits;
+import io.qameta.allure.Description;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,9 +20,6 @@ public class HolidaySpecials extends CommonAPI {
         PageFactory.initElements(driver, this);
         wait = new Waits(driver);
     }
-
-    @FindBy(id = "")
-    WebElement a;
 
     public void selectColor(String color) {
         WebElement colors = driver.findElement(By.xpath("//label[@title='" + color + "']/span"));

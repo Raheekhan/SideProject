@@ -73,6 +73,16 @@
                 <artifactId>ocular</artifactId>
             </dependency>
 
+            <dependency>
+                <groupId>ru.yandex.qatools.ashot</groupId>
+                <artifactId>ashot</artifactId>
+            </dependency>
+
+            <dependency>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-testng</artifactId>
+            </dependency>
+
         </dependencies>
 
     <build>

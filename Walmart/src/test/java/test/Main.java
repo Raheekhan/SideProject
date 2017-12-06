@@ -1,10 +1,14 @@
 package test;
 
-import base.BaseUtil;
 import base.CommonAPI;
+import io.qameta.allure.Description;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 import pages.*;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class Main extends CommonAPI {
@@ -22,9 +26,12 @@ public class Main extends CommonAPI {
         all.selectCategory("Electronic", "iPad");
         assertTrue("Refine is not present", resultsPage.isRefineSearchPresent());
         resultsPage.refinePrice("50", "100");
-        resultsPage.checkIfResultsFound();
+        assertFalse("Results not found", resultsPage.checkIfResultsFound());
     }
 
+    @Description("User searches for an item and is able to refine search")
+    @Story("Execute search and refine price")
+    @Severity(SeverityLevel.BLOCKER)
     @Test(enabled = true)
     public void executeSearchAndRefinePrice() {
         HomePage homePage = new HomePage(driver);
@@ -32,7 +39,7 @@ public class Main extends CommonAPI {
         homePage.executeSearch("ipad");
         assertTrue("Refine is not present", resultsPage.isRefineSearchPresent());
         resultsPage.refinePrice("50", "100");
-        resultsPage.checkIfResultsFound();
+        assertFalse("Results not found", resultsPage.checkIfResultsFound());
     }
 
     @Test(enabled = false)
